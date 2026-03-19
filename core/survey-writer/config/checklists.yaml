@@ -1,0 +1,104 @@
+# 检查清单配置
+
+checklists:
+  # 结构完整性检查
+  structure:
+    - id: S1
+      item: "检查\\end{document}唯一性"
+      command: "grep -c '\\\\end{document}' file.tex"
+      expected: "1"
+      
+    - id: S2
+      item: "检查章节数量"
+      command: "grep -c '\\\\section{' file.tex"
+      expected: ">=7"
+      
+    - id: S3
+      item: "检查页数"
+      command: "pdfinfo file.pdf | grep Pages"
+      expected: ">=30"
+      
+    - id: S4
+      item: "检查目录"
+      command: "grep -c '\\\\tableofcontents' file.tex"
+      expected: "1"
+  
+  # 引用系统检查
+  citations:
+    - id: C1
+      item: "检查无[??]引用失败"
+      command: "grep -c '\[??\]' file.tex"
+      expected: "0"
+      
+    - id: C2
+      item: "检查使用thebibliography"
+      command: "grep -c '\\\\begin{thebibliography}' file.tex"
+      expected: "1"
+      
+    - id: C3
+      item: "检查cite命令使用"
+      command: "grep -c '\\\\cite{' file.tex"
+      expected: ">=20"
+      
+    - id: C4
+      item: "检查bibitem定义"
+      command: "grep -c '\\\\bibitem{' file.tex"
+      expected: ">=20"
+  
+  # 排版格式检查
+  formatting:
+    - id: F1
+      item: "检查孤立列举"
+      command: "grep -c '\\n\\s*(\\d)' file.tex"
+      expected: "0"
+      
+    - id: F2
+      item: "检查交叉引用格式"
+      command: "grep -c '[^~]\\\\ref{' file.tex"
+      expected: "0"
+      
+    - id: F3
+      item: "检查单句itemize"
+      command: "grep -c '\\\\item.*{0,100}\\\\n\\\\end{itemize}' file.tex"
+      expected: "0"
+  
+  # 图表检查
+  figures:
+    - id: G1
+      item: "检查图表总数"
+      command: "grep -c '\\\\begin{figure}' file.tex + grep -c '\\\\begin{table}' file.tex"
+      expected: ">=5"
+      
+    - id: G2
+      item: "检查TikZ图"
+      command: "grep -c '\\\\begin{tikzpicture}' file.tex"
+      expected: ">=3"
+  
+  # 内容检查
+  content:
+    - id: T1
+      item: "检查批判性分析"
+      command: "grep -c '局限性\\|缺点\\|不足\\|挑战' file.tex"
+      expected: ">=10"
+      
+    - id: T2
+      item: "检查数学公式"
+      command: "grep -c '\\\\begin{equation}' file.tex"
+      expected: ">=10"
+      
+    - id: T3
+      item: "检查未来方向"
+      command: "grep -c '未来\\|展望\\|趋势' file.tex"
+      expected: ">=3"
+  
+  # 编译检查
+  compilation:
+    - id: B1
+      item: "编译无错误"
+      command: "xelatex file.tex 2>&1 | grep -c 'Error'"
+      expected: "0"
+      
+    - id: B2
+      item: "编译无警告"
+      command: "xelatex file.tex 2>&1 | grep -c 'Warning'"
+      expected: "0"

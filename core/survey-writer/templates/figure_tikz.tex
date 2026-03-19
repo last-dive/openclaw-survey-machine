@@ -1,0 +1,142 @@
+% TikZ框图模板
+% 基于UAV_Delay_Survey_v3成功经验
+
+% ==================== 模板1: 系统架构图 ====================
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    node distance=2.5cm,
+    block/.style={rectangle, rounded corners=5pt, draw=black!70, fill=blue!10,
+                  minimum width=2.8cm, minimum height=1.2cm, text centered, font=\small},
+    arrow/.style={-{Stealth[length=2.5mm]}, thick, black!70}
+]
+
+% 节点定义 (使用绝对坐标避免错位)
+\node[block] (node1) at (0,0) {节点1};
+\node[block] (node2) at (4,0) {节点2};
+\node[block] (node3) at (8,0) {节点3};
+\node[block] (node4) at (4,-2.5) {节点4};
+
+% 连接线
+\draw[arrow] (node1) -- (node2);
+\draw[arrow] (node2) -- (node3);
+\draw[arrow] (node2) -- (node4);
+
+\end{tikzpicture}
+\caption{系统架构图}
+\label{fig:architecture}
+\end{figure}
+
+% ==================== 模板2: 方法分类框架图 ====================
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    node distance=3.5cm and 2.5cm,
+    level1/.style={rectangle, rounded corners=5pt, draw=black!70, fill=green!10,
+                   minimum width=3cm, minimum height=1cm, text centered, font=\small\bfseries},
+    level2/.style={rectangle, rounded corners=3pt, draw=black!60, fill=blue!5,
+                   minimum width=2.5cm, minimum height=0.8cm, text centered, font=\small},
+    arrow/.style={-{Stealth[length=2mm]}, thick, black!60}
+]
+
+% 第一层
+\node[level1] (l1) at (0,0) {第一层};
+
+% 第二层
+\node[level2] (l2a) at (-4,-2.5) {子类A};
+\node[level2] (l2b) at (0,-2.5) {子类B};
+\node[level2] (l2c) at (4,-2.5) {子类C};
+
+% 第三层
+\node[level2] (l3a1) at (-5,-4.5) {方法A1};
+\node[level2] (l3a2) at (-3,-4.5) {方法A2};
+\node[level2] (l3b1) at (-1,-4.5) {方法B1};
+\node[level2] (l3b2) at (1,-4.5) {方法B2};
+\node[level2] (l3c1) at (3,-4.5) {方法C1};
+\node[level2] (l3c2) at (5,-4.5) {方法C2};
+
+% 连接线
+\draw[arrow] (l1) -- (l2a);
+\draw[arrow] (l1) -- (l2b);
+\draw[arrow] (l1) -- (l2c);
+\draw[arrow] (l2a) -- (l3a1);
+\draw[arrow] (l2a) -- (l3a2);
+\draw[arrow] (l2b) -- (l3b1);
+\draw[arrow] (l2b) -- (l3b2);
+\draw[arrow] (l2c) -- (l3c1);
+\draw[arrow] (l2c) -- (l3c2);
+
+\end{tikzpicture}
+\caption{方法分类框架}
+\label{fig:framework}
+\end{figure}
+
+% ==================== 模板3: 技术框图 (Smith预估器) ====================
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    node distance=2cm,
+    block/.style={rectangle, draw=black!70, fill=blue!10,
+                  minimum width=1.8cm, minimum height=1cm, text centered, font=\small},
+    sum/.style={circle, draw=black!70, fill=white, minimum size=0.8cm, font=\small},
+    arrow/.style={-{Stealth[length=2mm]}, thick, black!70}
+]
+
+% 节点
+\node[sum] (sum1) at (0,0) {$+$};
+\node[block] (controller) at (2,0) {控制器};
+\node[sum] (sum2) at (4,0) {$+$};
+\node[block] (plant) at (6,0) {被控对象};
+\node[block] (model) at (4,-2) {模型};
+\node[block] (delay) at (6,-2) {时延};
+
+% 输入输出
+\node[left of=sum1, node distance=1.5cm] (input) {$r(t)$};
+\node[right of=plant, node distance=1.5cm] (output) {$y(t)$};
+
+% 连接
+\draw[arrow] (input) -- (sum1);
+\draw[arrow] (sum1) -- (controller);
+\draw[arrow] (controller) -- (sum2);
+\draw[arrow] (sum2) -- (plant);
+\draw[arrow] (plant) -- (output);
+\draw[arrow] (output) |- (model);
+\draw[arrow] (model) -- (delay);
+\draw[arrow] (delay) -| (sum2);
+\draw[arrow] (output) -- ++(0,-3) -| (sum1);
+
+\end{tikzpicture}
+\caption{Smith预估器结构}
+\label{fig:smith}
+\end{figure}
+
+% ==================== 模板4: 时间线图 ====================
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    node distance=0.5cm,
+    year/.style={font=\small\bfseries, text width=1.5cm, align=center},
+    event/.style={font=\small, text width=8cm, align=left},
+    arrow/.style={-{Stealth[length=2mm]}, thick, black!70}
+]
+
+% 时间轴
+\draw[arrow] (0,0) -- (10,0);
+
+% 年份标记
+\foreach \x/\year in {1/2000, 3/2010, 5/2015, 7/2020, 9/2024} {
+    \draw[thick] (\x,-0.1) -- (\x,0.1);
+    \node[year] at (\x,-0.5) {\year};
+}
+
+% 事件
+\node[event] at (1,1) {事件1};
+\node[event] at (3,1.5) {事件2};
+\node[event] at (5,1) {事件3};
+\node[event] at (7,1.5) {事件4};
+\node[event] at (9,1) {事件5};
+
+\end{tikzpicture}
+\caption{技术演进时间线}
+\label{fig:timeline}
+\end{figure}

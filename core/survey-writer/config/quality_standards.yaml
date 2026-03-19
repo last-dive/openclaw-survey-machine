@@ -1,0 +1,50 @@
+# 质量标准配置
+
+quality_standards:
+  # 页数标准
+  pages:
+    short: [15, 20]      # 短篇综述
+    standard: [30, 35]   # 标准综述 (推荐)
+    long: [50, 100]      # 长篇综述
+  
+  # 文献数量
+  citations:
+    min: 50
+    target: 80
+    max: 150
+    recent_ratio: 0.6    # 近5年文献比例
+    top_venue_ratio: 0.7 # 顶会顶刊比例
+  
+  # 图表数量
+  figures:
+    min: 5
+    target: 8
+    max: 15
+    types:
+      architecture: 1    # 系统架构图
+      framework: 2       # 方法分类图
+      technical: 3       # 技术框图
+      table: 3           # 对比表格
+  
+  # 内容标准
+  content:
+    critical_analysis_min: 10  # 批判性分析最少数量
+    equations_min: 10          # 数学公式最少数量
+    subsections_per_chapter: 3 # 每章最少小节数
+  
+  # 评分标准
+  scoring:
+    structure: 20      # 结构完整性
+    citations: 20      # 引用系统
+    formatting: 15     # 排版格式
+    figures: 15        # 图表质量
+    content: 15        # 内容深度
+    compilation: 15    # 编译状态
+  
+  # 评级标准
+  grading:
+    A_plus: [90, 100]  # 可投稿顶刊
+    A: [80, 89]        # 可投稿核心期刊
+    B_plus: [70, 79]   # 需进一步完善
+    B: [60, 69]        # 需大幅修改
+    C: [0, 59]         # 不合格

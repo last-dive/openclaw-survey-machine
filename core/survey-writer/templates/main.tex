@@ -1,0 +1,144 @@
+% 综述主文档模板
+% 基于UAV_Delay_Survey_v3成功经验
+
+\documentclass[12pt,a4paper]{ctexart}
+
+% 基础包
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc}
+
+% 页面设置
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+% 标题设置
+\title{\textbf{{TITLE}}}
+\author{{AUTHOR}}
+\date{{DATE}}
+
+% TikZ样式定义
+\tikzset{
+    block/.style={rectangle, rounded corners, draw=black!70, fill=blue!10, 
+                  minimum width=2.5cm, minimum height=1cm, text centered},
+    arrow/.style={-{Stealth[length=2.5mm]}, thick, black!70},
+    label/.style={font=\small\bfseries}
+}
+
+\begin{document}
+
+\maketitle
+
+% 摘要
+\begin{abstract}
+{ABSTRACT}
+
+\textbf{关键词：}{KEYWORDS}
+\end{abstract}
+
+% 目录
+\tableofcontents
+\newpage
+
+% 第1章 引言
+\section{引言}
+\subsection{研究背景与意义}
+{CH1_1}
+
+\subsection{问题定义与挑战}
+{CH1_2}
+
+\subsection{研究现状概述}
+{CH1_3}
+
+\subsection{本文组织结构}
+{CH1_4}
+
+% 第2章 基础理论
+\section{基础理论}
+\subsection{核心概念定义}
+{CH2_1}
+
+\subsection{数学建模}
+{CH2_2}
+
+\subsection{经典方法回顾}
+{CH2_3}
+
+% 第3章 方法A
+\section{方法A}
+\subsection{子类A1}
+{CH3_1}
+
+\subsection{子类A2}
+{CH3_2}
+
+\subsection{子类A3}
+{CH3_3}
+
+\subsection{方法对比与局限性}
+{CH3_4}
+
+% 第4章 方法B
+\section{方法B}
+\subsection{子类B1}
+{CH4_1}
+
+\subsection{子类B2}
+{CH4_2}
+
+\subsection{子类B3}
+{CH4_3}
+
+\subsection{方法对比与局限性}
+{CH4_4}
+
+% 第5章 方法C
+\section{方法C}
+\subsection{子类C1}
+{CH5_1}
+
+\subsection{子类C2}
+{CH5_2}
+
+\subsection{子类C3}
+{CH5_3}
+
+\subsection{方法对比与局限性}
+{CH5_4}
+
+% 第6章 实验与应用
+\section{实验与应用}
+\subsection{数据集与评测指标}
+{CH6_1}
+
+\subsection{性能对比分析}
+{CH6_2}
+
+\subsection{应用案例}
+{CH6_3}
+
+% 第7章 未来方向
+\section{未来研究方向}
+\subsection{技术挑战}
+{CH7_1}
+
+\subsection{研究趋势}
+{CH7_2}
+
+\subsection{发展展望}
+{CH7_3}
+
+% 参考文献
+\begin{thebibliography}{99}
+{BIBLIOGRAPHY}
+\end{thebibliography}
+
+\end{document}

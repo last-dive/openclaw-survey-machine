@@ -1,0 +1,275 @@
+% 第2章 理论基础 - 扩展内容
+\section{理论基础}\label{sec:foundation}
+
+大语言模型智能体的构建依赖于多个理论基础，包括Chain-of-Thought推理、ReAct框架、Tool Learning等。本章系统介绍这些基础方法的技术原理、发展脉络和相互关系，为后续架构和组件的讨论奠定基础。
+
+\subsection{大语言模型基础}
+
+\subsubsection{Transformer架构}
+
+现代大语言模型普遍基于Transformer架构。Transformer由编码器（Encoder）和解码器（Decoder）组成，采用自注意力机制（Self-Attention）捕获序列中的长距离依赖关系。
+
+\textbf{自注意力机制}：给定输入序列$\mathbf{X} = [\mathbf{x}_1, \mathbf{x}_2, \ldots, \mathbf{x}_n]$，自注意力计算如下：
+
+\begin{equation}\label{eq:self_attention}
+    \text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\left(\frac{\mathbf{Q}\mathbf{K}^T}{\sqrt{d_k}}\right)\mathbf{V}
+\end{equation}
+
+其中，$\mathbf{Q} = \mathbf{X}\mathbf{W}^Q$、$\mathbf{K} = \mathbf{X}\mathbf{W}^K$、$\mathbf{V} = \mathbf{X}\mathbf{W}^V$分别是查询、键、值矩阵，$d_k$是键的维度。
+
+\textbf{解码器-only架构}：当前主流的大语言模型（如GPT系列、LLaMA系列）采用解码器-only架构。模型通过自回归方式生成序列：
+
+\begin{equation}\label{eq:autoregressive}
+    P(\mathbf{x} | \mathbf{c}) = \prod_{i=1}^{n} P(x_i | x_{<i}, \mathbf{c}; \theta)
+\end{equation}
+
+其中，$\mathbf{c}$是上下文（提示），$\theta$是模型参数。
+
+\subsubsection{预训练与涌现能力}
+
+大语言模型通过在大规模无标注文本上进行自监督预训练，获得了丰富的语言知识和世界知识。研究表明，当模型规模达到一定程度时，会涌现出小模型不具备的能力，称为\textbf{涌现能力（Emergent Abilities）}。
+
+Wei等人\cite{wei2022emergent}识别了LLM的三种典型涌现能力：
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{上下文学习（In-context Learning）}：通过提示中的少量示例学习新任务，无需梯度更新
+    \item \textbf{指令遵循（Instruction Following）}：理解并执行自然语言指令
+    \item \textbf{多步骤推理（Multi-step Reasoning）}：通过Chain-of-Thought提示进行复杂推理
+\end{enumerate}
+
+这些涌现能力为构建LLM智能体提供了基础：上下文学习使智能体能够快速适应新任务，指令遵循使人类能够通过自然语言与智能体交互，多步骤推理支持复杂任务的规划和执行。
+
+\subsection{Chain-of-Thought推理}
+
+Chain-of-Thought（CoT）提示是激发LLM推理能力的关键技术，由Wei等人~\cite{wei2022chain}于2022年提出。
+
+\subsubsection{基本原理}
+
+CoT提示的核心思想是：\textbf{在示例中显式展示中间推理步骤，引导模型生成类似的推理过程}。与传统提示直接映射输入到输出不同，CoT提示要求模型先生成思维链（Chain of Thought），再给出最终答案。
+
+\textbf{形式化描述}：设任务为从输入$\mathbf{x}$生成输出$\mathbf{y}$。传统提示学习条件分布$P(\mathbf{y}|\mathbf{x})$，而CoT提示学习：
+
+\begin{equation}\label{eq:cot_formal}
+    P(\mathbf{y}|\mathbf{x}) = \sum_{\mathbf{z}} P(\mathbf{y}|\mathbf{z}, \mathbf{x}) P(\mathbf{z}|\mathbf{x})
+\end{equation}
+
+其中，$\mathbf{z} = [z_1, z_2, \ldots, z_m]$是中间推理步骤组成的思维链。
+
+\textbf{示例对比}：
+
+\begin{table}[htbp]
+    \centering
+    \caption{标准提示与CoT提示对比}\label{tab:cot_example}
+    \begin{tabular}{@{}p{0.45\textwidth}p{0.45\textwidth}@{}}
+        \toprule
+        \textbf{标准提示} & \textbf{CoT提示} \\
+        \midrule
+        Q: 一个农场有5只鸡，每只鸡每天下2个蛋。3天后有多少个蛋？
+        
+        A: 30 & Q: 一个农场有5只鸡，每只鸡每天下2个蛋。3天后有多少个蛋？
+        
+        A: 每只鸡每天下2个蛋，5只鸡每天下10个蛋。3天后共有30个蛋。答案是30。 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsubsection{CoT变体方法}
+
+自原始CoT提出以来，研究人员发展了多种变体方法：
+
+\textbf{1. Zero-shot CoT}
+
+Kojima等人~\cite{kojima2022large}发现，即使在提示中不提供示例，仅添加"Let's think step by step"（让我们一步步思考）的指令，也能激发LLM的推理能力。这种方法称为Zero-shot CoT，具有即插即用的便利性。
+
+\textbf{2. Automatic CoT (Auto-CoT)}
+
+Zhang等人~\cite{zhang2023automatic}提出Auto-CoT，自动构建CoT示例，无需人工编写。该方法通过聚类选择代表性问题，并使用Zero-shot CoT生成对应的推理链。
+
+\textbf{3. Self-Consistency}
+
+Wang等人\cite{wang2023selfconsistency}提出自一致性解码策略：采样多条推理路径，选择出现最频繁的答案作为最终输出。形式化地：
+
+\begin{equation}\label{eq:self_consistency}
+    \hat{\mathbf{y}} = \arg\max_{\mathbf{y}} \sum_{\mathbf{z}} \mathbb{1}[\mathbf{y} = \arg\max_{\mathbf{y}'} P(\mathbf{y}'|\mathbf{z}, \mathbf{x})] \cdot P(\mathbf{z}|\mathbf{x})
+\end{equation}
+
+\textbf{4. Tree of Thoughts (ToT)}
+
+Yao等人~\cite{yao2023tree}提出Tree of Thoughts框架，将推理过程建模为树形搜索。每个节点代表一个思维状态，通过搜索算法（如BFS、DFS、MCTS）探索最优推理路径。
+
+\textbf{5. Graph of Thoughts (GoT)}
+
+Besta等人~\cite{besta2024graph}进一步扩展ToT，提出Graph of Thoughts，允许思维节点之间存在更复杂的图结构关系，支持聚合、精炼等操作。
+
+\subsubsection{理论分析}
+
+为什么CoT能提升LLM的推理能力？研究者提出了多种解释：
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{分解效应}：将复杂问题分解为简单子问题，降低每一步的难度
+    \item \textbf{知识激活}：显式推理过程激活了模型中的相关知识
+    \item \textbf{计算增强}：更长的输出序列提供了更多的计算步骤
+    \item \textbf{模式匹配}：示例中的推理模式引导模型生成类似结构
+\end{enumerate}
+
+实验表明，CoT提示在数学推理（GSM8K）、常识推理（StrategyQA）、符号推理（Last Letter Concatenation）等任务上显著提升性能，特别是对于参数量超过100B的模型。
+
+\subsection{ReAct框架}
+
+ReAct（Reasoning and Acting）框架由Yao等人\cite{yao2023react}于2023年提出，首次系统性地将推理和行动结合起来，是LLM智能体发展的重要里程碑。
+
+\subsubsection{核心思想}
+
+ReAct的核心思想是：\textbf{推理和行动应该交错进行，相互促进}。传统方法通常将推理和行动分离：先进行完整的推理，再执行行动；或者先执行行动，再进行推理总结。ReAct则认为，在每一步行动中融入推理，可以更好地利用LLM的能力。
+
+\textbf{形式化描述}：ReAct将任务执行建模为轨迹$\tau = [(t_1, a_1, o_1), (t_2, a_2, o_2), \ldots, (t_n, a_n, o_n)]$，其中：
+
+\begin{itemize}[leftmargin=2em]
+    \item $t_i$：第$i$步的思考（Thought），描述当前状态和目标
+    \item $a_i$：第$i$步的行动（Action），执行具体操作
+    \item $o_i$：第$i$步的观察（Observation），接收环境反馈
+\end{itemize}
+
+\subsubsection{算法流程}
+
+ReAct智能体的执行流程如算法~\ref{alg:react}所示：
+
+\begin{algorithm}[htbp]
+    \caption{ReAct执行流程}\label{alg:react}
+    \begin{algorithmic}[1]
+        \Require 任务描述$\mathcal{T}$，工具集合$\mathcal{G}$，最大步数$N$
+        \State 初始化轨迹$\tau \leftarrow []$
+        \For{$i = 1$ to $N$}
+            \State $t_i \leftarrow \text{LLM}(\mathcal{T}, \tau, \text{``思考''})$ \Comment{生成思考}
+            \State $a_i \leftarrow \text{LLM}(\mathcal{T}, \tau, t_i, \text{``行动''})$ \Comment{生成行动}
+            \If{$a_i$表示任务完成}
+                \State \Return 结果
+            \EndIf
+            \State $o_i \leftarrow \text{Execute}(a_i, \mathcal{G})$ \Comment{执行行动，获取观察}
+            \State $\tau \leftarrow \tau \oplus [(t_i, a_i, o_i)]$ \Comment{更新轨迹}
+        \EndFor
+        \State \Return 超时失败
+    \end{algorithmic}
+\end{algorithm}
+
+\subsubsection{与CoT的对比}
+
+ReAct与CoT既有联系又有区别：
+
+\begin{table}[htbp]
+    \centering
+    \caption{ReAct与CoT的对比}\label{tab:react_vs_cot}
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \textbf{特性} & \textbf{CoT} & \textbf{ReAct} \\
+        \midrule
+        核心能力 & 推理 & 推理 + 行动 \\
+        环境交互 & 无 & 有 \\
+        信息获取 & 仅内部知识 & 内部知识 + 外部工具 \\
+        应用场景 & 静态推理任务 & 动态交互任务 \\
+        错误恢复 & 有限 & 通过观察反馈调整 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+CoT适合解决仅依赖内部知识的静态推理问题（如数学问题），而ReAct适合需要与外部环境交互的动态任务（如问答、网页导航）。
+
+\subsubsection{应用场景}
+
+ReAct在多种任务上展现出优势：
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{知识密集型问答}：通过搜索工具获取最新信息，弥补LLM知识截止的局限
+    \item \textbf{决策制定}：在交互式环境中（如ALFWorld、WebShop）进行多步骤决策
+    \item \textbf{工具使用}：协调使用多个工具完成复杂任务
+\end{itemize}
+
+实验表明，ReAct在HotpotQA（多跳问答）和Fever（事实验证）等任务上优于纯推理（CoT-only）和纯行动（Act-only）的基线方法。
+
+\subsection{Tool Learning}
+
+Tool Learning使LLM能够理解和使用外部工具，是构建实用智能体的关键技术。
+
+\subsubsection{工具学习范式}
+
+工具学习涉及三个核心问题：
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{工具选择（When）}：何时需要使用工具？
+    \item \textbf{工具调用（Which）}：选择哪个工具？
+    \item \textbf{参数生成（How）}：如何生成正确的调用参数？
+\end{enumerate}
+
+\subsubsection{Toolformer}
+
+Toolformer\cite{schick2023toolformer}是工具学习的开创性工作。其核心思想是：通过自监督学习，让模型学会在适当位置插入工具调用标记。
+
+\textbf{训练过程}：
+
+\begin{enumerate}[leftmargin=2em]
+    \item 使用启发式规则从语料中筛选可能需要工具的文本片段
+    \item 为每个位置采样候选工具调用
+    \item 计算工具调用后的损失减少量，筛选高质量调用
+    \item 将工具调用和结果插入原文，构建训练数据
+    \item 使用标准语言建模目标微调模型
+\end{enumerate}
+
+\textbf{推理过程}：生成文本时，当模型预测出工具调用标记，暂停生成，执行工具调用，将结果插入后继续生成。
+
+\subsubsection{其他工具学习方法}
+
+\textbf{1. Gorilla}
+
+Gorilla专注于API调用生成。通过检索增强生成（Retrieval-Augmented Generation）机制，从API文档库中检索相关API，然后生成调用代码。
+
+\textbf{2. ToolLLM}
+
+ToolLLM构建了包含16000+真实API的工具学习基准，并训练了专门的工具使用模型。
+
+\textbf{3. APIBench}
+
+APIBench提供了标准化的API调用评估框架，支持对工具学习能力的系统评估。
+
+\subsubsection{工具链组合}
+
+复杂任务通常需要组合多个工具。工具链组合涉及：
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{顺序执行}：按预定顺序依次调用工具
+    \item \textbf{条件执行}：根据中间结果决定后续工具
+    \item \textbf{并行执行}：同时调用多个独立工具
+    \item \textbf{循环执行}：重复调用直到满足终止条件
+\end{itemize}
+
+\subsection{其他基础方法}
+
+\subsubsection{Program of Thoughts (PoT)}
+
+PoT~\cite{chen2022program}将推理过程表示为程序代码（如Python），利用代码执行器进行精确计算。这种方法特别适合数学推理和符号操作任务。
+
+\subsubsection{Selection-Inference}
+
+Creswell等人~\cite{creswell2022selection}提出Selection-Inference框架，将推理分解为选择和推断两个交替进行的步骤，提升推理的可靠性和可解释性。
+
+\subsubsection{Faithful Reasoning}
+
+为了保证推理的忠实性（Faithfulness），研究者提出了多种方法：
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{验证链}：让模型验证自己的推理步骤
+    \item \textbf{分解验证}：将复杂推理分解为可验证的简单步骤
+    \item \textbf{外部验证}：使用外部工具验证推理结果
+\end{itemize}
+
+\subsection{理论基础小结}
+
+本章介绍了LLM智能体的理论基础：
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Chain-of-Thought推理}通过显式思维链激发LLM的推理能力，是多步骤问题解决的基础
+    \item \textbf{ReAct框架}将推理和行动紧密结合，支持动态环境交互
+    \item \textbf{Tool Learning}使LLM能够使用外部工具，扩展能力边界
+    \item 其他方法如ToT、GoT、PoT等进一步丰富了推理范式
+\end{enumerate}
+
+这些基础方法为LLM智能体的架构设计和组件实现提供了理论支撑，是后续章节讨论的基础。

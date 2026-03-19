@@ -1,0 +1,182 @@
+# 框架构建Prompt
+# 用途: 设计7章标准综述结构
+
+请为{主题}设计完整的综述框架。
+
+## 设计原则
+
+1. **逻辑递进**: 背景→理论→方法→实验→展望
+2. **分类清晰**: 每章有明确的分类维度
+3. **覆盖全面**: 不遗漏重要技术路线
+4. **重点突出**: 核心章节详细展开
+
+## 标准7章结构
+
+```yaml
+chapter1_introduction:
+  title: 引言
+  sections:
+    - 研究背景与意义
+    - 问题定义与挑战
+    - 研究现状概述
+    - 本文组织结构
+  key_elements:
+    - 应用场景 (军事、民用、商业)
+    - 核心挑战 (时延来源、影响)
+    - 技术演进时间线
+    - 本文贡献点
+
+chapter2_fundamentals:
+  title: 基础理论
+  sections:
+    - 核心概念定义
+    - 数学建模
+    - 经典方法回顾
+  key_elements:
+    - 时延定义与分类
+    - 系统建模 (状态空间、传递函数)
+    - 稳定性理论基础
+
+chapter3_method_a:
+  title: {方法A名称}
+  sections:
+    - 子类A1
+    - 子类A2
+    - 子类A3
+    - 方法对比与局限性
+  structure_per_subclass:
+    - 基本原理 (数学公式)
+    - 算法流程
+    - 适用场景
+    - 局限性分析
+
+chapter4_method_b:
+  title: {方法B名称}
+  structure: 同第3章
+
+chapter5_method_c:
+  title: {方法C名称}
+  structure: 同第3章
+
+chapter6_experiments:
+  title: 实验与应用
+  sections:
+    - 数据集与评测指标
+    - 性能对比分析
+    - 应用案例
+  key_elements:
+    - 对比表格 (方法vs指标)
+    - 优缺点总结
+    - 实际部署案例
+
+chapter7_future:
+  title: 未来研究方向
+  sections:
+    - 技术挑战
+    - 研究趋势
+    - 发展展望
+  key_elements:
+    - 具体问题 (3-4个)
+    - 新兴技术 (AI, 5G/6G等)
+    - 长期愿景
+```
+
+## 分类框架设计
+
+### 维度选择
+
+选择最能体现技术演进的分类维度:
+
+**示例1: 按方法论**
+- 模型驱动方法
+- 数据驱动方法
+- 混合方法
+
+**示例2: 按技术路线**
+- 经典控制方法
+- 现代控制方法
+- 智能控制方法
+
+**示例3: 按应用场景**
+- 单无人机系统
+- 多无人机协同
+- 复杂环境适应
+
+### 框架图设计
+
+为每个分类设计可视化框架:
+
+```
+┌─────────────────────────────────────┐
+│         方法分类框架图               │
+├─────────────────────────────────────┤
+│  第一层: 模型驱动 vs 数据驱动        │
+│     ↓                    ↓          │
+│  第二层: 子类1 子类2   子类3 子类4   │
+│     ↓      ↓          ↓      ↓      │
+│  第三层: 具体方法...                 │
+└─────────────────────────────────────┘
+```
+
+## 输出格式
+
+### framework.yaml
+
+```yaml
+survey_title: "{中文标题}"
+survey_title_en: "{英文标题}"
+keywords: ["关键词1", "关键词2", ...]
+
+total_pages: 35
+estimated_words: 15000
+
+chapters:
+  - id: 1
+    title: 引言
+    sections: 4
+    pages: 3
+    key_points: [...]
+    
+  - id: 2
+    title: 基础理论
+    sections: 3
+    pages: 4
+    key_points: [...]
+    
+  # ... 其他章节
+
+classification_framework:
+  dimension: "方法论"
+  categories:
+    - name: "模型驱动"
+      subcategories: [...]
+    - name: "数据驱动"
+      subcategories: [...]
+
+figures:
+  - id: 1
+    type: "architecture"
+    title: "系统架构图"
+    
+  - id: 2
+    type: "framework"
+    title: "方法分类框架"
+    
+  # ... 其他图表
+
+tables:
+  - id: 1
+    title: "方法对比表"
+    columns: ["方法", "优点", "缺点", "适用场景"]
+    
+  # ... 其他表格
+```
+
+## 质量检查
+
+- [ ] 7章结构完整
+- [ ] 每章3-4节
+- [ ] 分类维度清晰
+- [ ] 覆盖所有子领域
+- [ ] 逻辑递进合理
+- [ ] 页数分配合理 (总35页)

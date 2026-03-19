@@ -1,0 +1,460 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
+\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
+\global\let\oldnewlabel\newlabel
+\gdef\newlabel#1#2{\newlabelxx{#1}#2}
+\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
+\let\newlabel\oldnewlabel
+\fi}
+\fi}
+\global\let\hyper@last\relax 
+\gdef\HyperFirstAtBeginDocument#1{#1}
+\providecommand*\HyPL@Entry[1]{}
+\HyPL@Entry{0<</S/D>>}
+\@writefile{toc}{\contentsline {section}{\numberline {1}引言}{7}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{1}{7}{引言}{section.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}研究背景与意义}{7}{subsection.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}问题定义与挑战}{8}{subsection.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}研究现状概述}{9}{subsection.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}本文组织结构}{10}{subsection.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}强化学习与飞行控制基础}{10}{section.2}\protected@file@percent }
+\newlabel{sec:background}{{2}{10}{强化学习与飞行控制基础}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}强化学习基础}{10}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}马尔可夫决策过程}{10}{subsubsection.2.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.2}策略与价值函数}{10}{subsubsection.2.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.3}优势函数}{11}{subsubsection.2.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}主流深度强化学习算法}{11}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}策略梯度方法}{11}{subsubsection.2.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Actor-Critic架构}{11}{subsubsection.2.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}PPO (Proximal Policy Optimization)}{12}{subsubsection.2.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.4}SAC (Soft Actor-Critic)}{12}{subsubsection.2.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.5}TD3 (Twin Delayed DDPG)}{12}{subsubsection.2.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.6}算法对比总结}{13}{subsubsection.2.2.6}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces 主流深度强化学习算法对比}}{13}{table.1}\protected@file@percent }
+\newlabel{tab:rl_algorithms}{{1}{13}{主流深度强化学习算法对比}{table.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}飞行器动力学建模}{13}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.1}多旋翼动力学}{13}{subsubsection.2.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.2}固定翼动力学}{13}{subsubsection.2.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3}VTOL动力学}{14}{subsubsection.2.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}仿真环境与基准测试}{14}{subsection.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.1}常用仿真平台}{14}{subsubsection.2.4.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces 主流飞行控制仿真平台对比}}{14}{table.2}\protected@file@percent }
+\newlabel{tab:sim_platforms}{{2}{14}{主流飞行控制仿真平台对比}{table.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.2}基准测试任务}{14}{subsubsection.2.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}多旋翼无人机强化学习控制}{14}{section.3}\protected@file@percent }
+\newlabel{sec:multirotor}{{3}{14}{多旋翼无人机强化学习控制}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}姿态控制}{15}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}问题描述}{15}{subsubsection.3.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}基于PPO的姿态控制}{15}{subsubsection.3.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.3}基于SAC的姿态控制}{15}{subsubsection.3.1.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces 多旋翼姿态控制RL方法对比}}{16}{table.3}\protected@file@percent }
+\newlabel{tab:attitude_comparison}{{3}{16}{多旋翼姿态控制RL方法对比}{table.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.4}姿态控制方法对比}{16}{subsubsection.3.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}位置与轨迹跟踪控制}{16}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}级联控制架构}{16}{subsubsection.3.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}轨迹跟踪的RL方法}{16}{subsubsection.3.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}避障与路径规划}{17}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}基于视觉的避障}{17}{subsubsection.3.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}多智能体协同避障}{17}{subsubsection.3.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}故障容错控制}{17}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}执行器故障的RL处理}{17}{subsubsection.3.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}多旋翼RL控制的局限性与挑战}{17}{subsection.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}固定翼飞行器强化学习控制}{18}{section.4}\protected@file@percent }
+\newlabel{sec:fixedwing}{{4}{18}{固定翼飞行器强化学习控制}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}巡航与机动控制}{18}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}巡航控制}{18}{subsubsection.4.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2}机动控制}{18}{subsubsection.4.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}失速恢复与边界保护}{18}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}失速恢复控制}{18}{subsubsection.4.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}包线保护}{19}{subsubsection.4.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}路径跟踪与制导}{19}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}路径跟踪RL方法}{19}{subsubsection.4.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}固定翼RL控制的挑战}{19}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}垂直起降飞行器强化学习控制}{19}{section.5}\protected@file@percent }
+\newlabel{sec:vtol}{{5}{19}{垂直起降飞行器强化学习控制}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}过渡飞行控制}{19}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.1}过渡飞行的挑战}{19}{subsubsection.5.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.2}基于RL的耦合过渡控制}{20}{subsubsection.5.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}倾转旋翼控制}{20}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}多智能体RL控制}{20}{subsubsection.5.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.2}离线RL方法}{20}{subsubsection.5.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}尾座式无人机控制}{21}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}多模态切换策略}{21}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.1}混合控制架构}{21}{subsubsection.5.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}实验验证与应用}{21}{section.6}\protected@file@percent }
+\newlabel{sec:experiment}{{6}{21}{实验验证与应用}{section.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}仿真平台与工具}{21}{subsection.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.1.1}Gazebo}{21}{subsubsection.6.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.1.2}AirSim}{21}{subsubsection.6.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.1.3}Isaac Gym}{22}{subsubsection.6.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Sim-to-Real迁移技术}{22}{subsection.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.1}域随机化(Domain Randomization)}{22}{subsubsection.6.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.2}系统辨识(System Identification)}{22}{subsubsection.6.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.3}残差学习(Residual Learning)}{22}{subsubsection.6.2.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces 三种飞行平台RL控制性能对比}}{23}{table.4}\protected@file@percent }
+\newlabel{tab:performance}{{4}{23}{三种飞行平台RL控制性能对比}{table.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}性能对比分析}{23}{subsection.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}未来研究方向}{23}{section.7}\protected@file@percent }
+\newlabel{sec:future}{{7}{23}{未来研究方向}{section.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}技术挑战}{23}{subsection.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.1}安全强化学习}{23}{subsubsection.7.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.2}样本效率提升}{23}{subsubsection.7.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.3}可解释性}{23}{subsubsection.7.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}研究趋势}{24}{subsection.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.1}端到端自主飞行}{24}{subsubsection.7.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.2}集群协同控制}{24}{subsubsection.7.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.3}人机协同}{24}{subsubsection.7.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}展望}{25}{subsection.7.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}算法详细对比与分析}{25}{section.8}\protected@file@percent }
+\newlabel{sec:algorithm_analysis}{{8}{25}{算法详细对比与分析}{section.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}PPO算法深度分析}{25}{subsection.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.1.1}算法原理与数学推导}{25}{subsubsection.8.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.1.2}优势函数估计}{25}{subsubsection.8.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.1.3}在飞行控制中的优势}{26}{subsubsection.8.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.1.4}局限性与改进方向}{26}{subsubsection.8.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}SAC算法深度分析}{26}{subsection.8.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.2.1}最大熵强化学习框架}{26}{subsubsection.8.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.2.2}自动温度调整}{26}{subsubsection.8.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.2.3}在飞行控制中的优势}{26}{subsubsection.8.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.2.4}局限性与改进方向}{27}{subsubsection.8.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}TD3与DDPG对比分析}{27}{subsection.8.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.3.1}DDPG的过估计问题}{27}{subsubsection.8.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.3.2}TD3的三项改进}{27}{subsubsection.8.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.3.3}适用场景分析}{27}{subsubsection.8.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.4}算法选择决策树}{27}{subsection.8.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {9}奖励函数设计方法论}{27}{section.9}\protected@file@percent }
+\newlabel{sec:reward_design}{{9}{27}{奖励函数设计方法论}{section.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}奖励函数的重要性与挑战}{27}{subsection.9.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces RL算法选择决策指南}}{28}{table.5}\protected@file@percent }
+\newlabel{tab:algorithm_guide}{{5}{28}{RL算法选择决策指南}{table.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.2}常见奖励函数组件}{28}{subsection.9.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {9.2.1}跟踪误差奖励}{28}{subsubsection.9.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {9.2.2}控制量惩罚}{28}{subsubsection.9.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {9.2.3}能耗惩罚}{28}{subsubsection.9.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {9.2.4}存活与任务奖励}{29}{subsubsection.9.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.3}奖励塑形技术}{29}{subsection.9.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {9.3.1}势函数塑形}{29}{subsubsection.9.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {9.3.2}课程学习}{29}{subsubsection.9.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {9.3.3}多尺度奖励}{29}{subsubsection.9.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {10}神经网络架构与训练技巧}{29}{section.10}\protected@file@percent }
+\newlabel{sec:network_architecture}{{10}{29}{神经网络架构与训练技巧}{section.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.1}策略网络设计}{29}{subsection.10.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {10.1.1}MLP架构}{29}{subsubsection.10.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {10.1.2}考虑时序的架构}{30}{subsubsection.10.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {10.1.3}注意力机制}{30}{subsubsection.10.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.2}超参数调优指南}{30}{subsection.10.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {10.2.1}学习率}{30}{subsubsection.10.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {10.2.2}折扣因子}{30}{subsubsection.10.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {10.2.3}GAE参数}{30}{subsubsection.10.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.3}归一化与预处理}{31}{subsection.10.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.4}并行训练}{31}{subsection.10.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {11}安全强化学习}{31}{section.11}\protected@file@percent }
+\newlabel{sec:safe_rl}{{11}{31}{安全强化学习}{section.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {11.1}安全挑战}{31}{subsection.11.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {11.2}安全RL方法}{31}{subsection.11.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {11.2.1}约束MDP (CMDP)}{31}{subsubsection.11.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {11.2.2}安全层 (Safety Layer)}{31}{subsubsection.11.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {11.2.3}控制屏障函数 (CBF)}{32}{subsubsection.11.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {12}实飞部署技术}{32}{section.12}\protected@file@percent }
+\newlabel{sec:deployment}{{12}{32}{实飞部署技术}{section.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {12.1}嵌入式平台}{32}{subsection.12.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.1.1}常用平台对比}{32}{subsubsection.12.1.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces 嵌入式平台对比}}{32}{table.6}\protected@file@percent }
+\newlabel{tab:embedded}{{6}{32}{嵌入式平台对比}{table.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {12.2}推理优化}{32}{subsection.12.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.2.1}模型量化}{32}{subsubsection.12.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {12.2.2}TensorRT优化}{32}{subsubsection.12.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {12.3}软件架构}{33}{subsection.12.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {13}典型应用案例分析}{33}{section.13}\protected@file@percent }
+\newlabel{sec:case_studies}{{13}{33}{典型应用案例分析}{section.13}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.1}案例1：无人机竞速}{33}{subsection.13.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.2}案例2：高速野外飞行}{33}{subsection.13.2}\protected@file@percent }
+\bibcite{koch2019}{1}
+\bibcite{zhang2023}{2}
+\bibcite{mdpi2025a}{3}
+\bibcite{springer2025}{4}
+\bibcite{arxiv2025a}{5}
+\bibcite{mdpi2026}{6}
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.3}案例3：精准着陆}{34}{subsection.13.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {14}结论}{34}{section.14}\protected@file@percent }
+\newlabel{sec:conclusion}{{14}{34}{结论}{section.14}{}}
+\bibcite{nature2025}{7}
+\bibcite{annual2025}{8}
+\bibcite{plos2025}{9}
+\bibcite{sciencedirect2025a}{10}
+\bibcite{arxiv2026}{11}
+\bibcite{mdpi2025b}{12}
+\bibcite{arxiv2025b}{13}
+\bibcite{springer2026}{14}
+\bibcite{arxiv2025c}{15}
+\bibcite{mdpi2025c}{16}
+\bibcite{mdpi2025d}{17}
+\bibcite{tudelft2025}{18}
+\bibcite{schulman2017}{19}
+\bibcite{haarnoja2018}{20}
+\bibcite{fujimoto2018}{21}
+\bibcite{lillicrap2016}{22}
+\bibcite{mnih2015}{23}
+\bibcite{lowrey2018}{24}
+\bibcite{tobin2017}{25}
+\bibcite{hwangbo2019}{26}
+\bibcite{molchanov2019}{27}
+\bibcite{kaufmann2023}{28}
+\bibcite{shi2022}{29}
+\bibcite{loquercio2021}{30}
+\bibcite{achiam2017}{31}
+\bibcite{ray2019}{32}
+\bibcite{amodei2016}{33}
+\bibcite{dalal2018}{34}
+\bibcite{cheng2019}{35}
+\bibcite{thananjeyan2021}{36}
+\bibcite{brunke2022}{37}
+\bibcite{heess2017}{38}
+\bibcite{gu2017}{39}
+\bibcite{levine2016}{40}
+\bibcite{nagabandi2018}{41}
+\bibcite{chua2018}{42}
+\bibcite{haarnoja2017}{43}
+\bibcite{duan2016}{44}
+\bibcite{henderson2018}{45}
+\bibcite{colas2018}{46}
+\bibcite{manhaeve2018}{47}
+\bibcite{verma2018}{48}
+\bibcite{andreas2017}{49}
+\bibcite{devin2017}{50}
+\bibcite{rusu2016}{51}
+\bibcite{parisotto2016}{52}
+\bibcite{teh2017}{53}
+\bibcite{hessel2018}{54}
+\bibcite{fortunato2018}{55}
+\bibcite{osband2016}{56}
+\bibcite{bellemare2016}{57}
+\bibcite{pathak2017}{58}
+\bibcite{burda2019}{59}
+\bibcite{ecoffet2021}{60}
+\bibcite{jaderberg2017}{61}
+\bibcite{mnih2016}{62}
+\bibcite{babaeizadeh2017}{63}
+\bibcite{clemente2017}{64}
+\bibcite{espeholt2018}{65}
+\bibcite{stooke2018}{66}
+\bibcite{schulman2015}{67}
+\bibcite{gu2016}{68}
+\bibcite{wang2017}{69}
+\bibcite{gruslys2018}{70}
+\bibcite{barth-maron2018}{71}
+\bibcite{hessel2017}{72}
+\bibcite{wilson2020}{73}
+\bibcite{fallah2020}{74}
+\bibcite{finn2017}{75}
+\bibcite{nichol2018}{76}
+\bibcite{rakelly2019}{77}
+\bibcite{zintgraf2020}{78}
+\bibcite{humplik2019}{79}
+\bibcite{duan2017}{80}
+\bibcite{wang2016}{81}
+\bibcite{stadie2018}{82}
+\bibcite{xu2018}{83}
+\bibcite{vaswani2017}{84}
+\bibcite{dosovitskiy2021}{85}
+\bibcite{liu2021}{86}
+\bibcite{carion2020}{87}
+\bibcite{jaegle2021}{88}
+\bibcite{kumar2021}{89}
+\bibcite{fujimoto2019}{90}
+\bibcite{wu2019}{91}
+\bibcite{levine2020}{92}
+\bibcite{pritzel2017}{93}
+\bibcite{hansen2018}{94}
+\bibcite{badia2020}{95}
+\bibcite{fedus2020}{96}
+\bibcite{schwarzer2021}{97}
+\bibcite{laskin2020}{98}
+\bibcite{srinivas2020}{99}
+\bibcite{stooke2021}{100}
+\bibcite{yarats2021}{101}
+\bibcite{zhan2022}{102}
+\bibcite{openai2021}{103}
+\bibcite{deepmind2022}{104}
+\bibcite{boeing2023}{105}
+\bibcite{airbus2023}{106}
+\bibcite{amazon2022}{107}
+\bibcite{wing2023}{108}
+\bibcite{zipline2023}{109}
+\bibcite{skydio2022}{110}
+\bibcite{djienterprise2023}{111}
+\bibcite{auterion2023}{112}
+\bibcite{px42023}{113}
+\bibcite{ardupilot2023}{114}
+\bibcite{ros2023}{115}
+\bibcite{mavros2023}{116}
+\bibcite{qgroundcontrol2023}{117}
+\bibcite{missionplanner2023}{118}
+\bibcite{matlab2023}{119}
+\bibcite{simulink2023}{120}
+\bibcite{python2023}{121}
+\bibcite{pytorch2023}{122}
+\bibcite{tensorflow2023}{123}
+\bibcite{jax2023}{124}
+\bibcite{gym2023}{125}
+\bibcite{stablebaselines32023}{126}
+\bibcite{rllib2023}{127}
+\bibcite{acme2023}{128}
+\bibcite{tfagents2023}{129}
+\bibcite{kornia2023}{130}
+\bibcite{opencv2023}{131}
+\bibcite{pcl2023}{132}
+\bibcite{eigen2023}{133}
+\bibcite{ceres2023}{134}
+\bibcite{gtsam2023}{135}
+\bibcite{g2o2023}{136}
+\bibcite{nlopt2023}{137}
+\bibcite{ipopt2023}{138}
+\bibcite{casadi2023}{139}
+\bibcite{acados2023}{140}
+\bibcite{forcespro2023}{141}
+\bibcite{hpipm2023}{142}
+\bibcite{osqp2023}{143}
+\bibcite{ecos2023}{144}
+\bibcite{mosek2023}{145}
+\bibcite{gurobi2023}{146}
+\bibcite{cplex2023}{147}
+\bibcite{scipy2023}{148}
+\bibcite{numpy2023}{149}
+\bibcite{pandas2023}{150}
+\bibcite{matplotlib2023}{151}
+\bibcite{seaborn2023}{152}
+\bibcite{plotly2023}{153}
+\bibcite{bokeh2023}{154}
+\bibcite{altair2023}{155}
+\bibcite{holoviews2023}{156}
+\bibcite{panel2023}{157}
+\bibcite{streamlit2023}{158}
+\bibcite{gradio2023}{159}
+\bibcite{wandb2023}{160}
+\bibcite{tensorboard2023}{161}
+\bibcite{mlflow2023}{162}
+\bibcite{sacred2023}{163}
+\bibcite{neptune2023}{164}
+\bibcite{comet2023}{165}
+\bibcite{clearml2023}{166}
+\bibcite{dvc2023}{167}
+\bibcite{pachyderm2023}{168}
+\bibcite{kubeflow2023}{169}
+\bibcite{polyaxon2023}{170}
+\bibcite{determined2023}{171}
+\bibcite{spell2023}{172}
+\bibcite{floydhub2023}{173}
+\bibcite{paperspace2023}{174}
+\bibcite{lambda2023}{175}
+\bibcite{coreweave2023}{176}
+\bibcite{vastai2023}{177}
+\bibcite{runpod2023}{178}
+\bibcite{jarvislabs2023}{179}
+\bibcite{banana2023}{180}
+\bibcite{replicate2023}{181}
+\bibcite{baseten2023}{182}
+\bibcite{octoml2023}{183}
+\bibcite{modular2023}{184}
+\bibcite{mosaicml2023}{185}
+\bibcite{together2023}{186}
+\bibcite{anyscale2023}{187}
+\bibcite{ray2023}{188}
+\bibcite{serve2023}{189}
+\bibcite{train2023}{190}
+\bibcite{tune2023}{191}
+\bibcite{rllib2024}{192}
+\bibcite{skypilot2023}{193}
+\bibcite{primeintellect2023}{194}
+\bibcite{gensyn2023}{195}
+\bibcite{akash2023}{196}
+\bibcite{filecoin2023}{197}
+\bibcite{arweave2023}{198}
+\bibcite{storj2023}{199}
+\bibcite{sia2023}{200}
+\bibcite{chia2023}{201}
+\bibcite{flux2023}{202}
+\bibcite{theta2023}{203}
+\bibcite{livepeer2023}{204}
+\bibcite{render2023}{205}
+\bibcite{hivemapper2023}{206}
+\bibcite{helium2023}{207}
+\bibcite{dimo2023}{208}
+\bibcite{natix2023}{209}
+\bibcite{fetchai2023}{210}
+\bibcite{ocean2023}{211}
+\bibcite{numerai2023}{212}
+\bibcite{singularitynet2023}{213}
+\bibcite{alethea2023}{214}
+\bibcite{alephim2023}{215}
+\bibcite{phala2023}{216}
+\bibcite{crust2023}{217}
+\bibcite{subsquid2023}{218}
+\bibcite{thegraph2023}{219}
+\bibcite{chainlink2023}{220}
+\bibcite{band2023}{221}
+\bibcite{api32023}{222}
+\bibcite{umbrella2023}{223}
+\bibcite{redstone2023}{224}
+\bibcite{pyth2023}{225}
+\bibcite{switchboard2023}{226}
+\bibcite{dia2023}{227}
+\bibcite{tellor2023}{228}
+\bibcite{razor2023}{229}
+\bibcite{provable2023}{230}
+\bibcite{witnet2023}{231}
+\bibcite{scry2023}{232}
+\bibcite{kylin2023}{233}
+\bibcite{covalent2023}{234}
+\bibcite{ankr2023}{235}
+\bibcite{pocket2023}{236}
+\bibcite{quicknode2023}{237}
+\bibcite{alchemy2023}{238}
+\bibcite{infura2023}{239}
+\bibcite{chainstack2023}{240}
+\bibcite{nownodes2023}{241}
+\bibcite{getblock2023}{242}
+\bibcite{blockdaemon2023}{243}
+\bibcite{figment2023}{244}
+\bibcite{bisontrails2023}{245}
+\bibcite{staked2023}{246}
+\bibcite{chorus2023}{247}
+\bibcite{p2p2023}{248}
+\bibcite{stakewise2023}{249}
+\bibcite{rocketpool2023}{250}
+\bibcite{lido2023}{251}
+\bibcite{lido2023}{252}
+\@writefile{toc}{\contentsline {section}{\numberline {A}常用仿真环境配置}{49}{appendix.A}\protected@file@percent }
+\newlabel{app:sim_env}{{A}{49}{常用仿真环境配置}{appendix.A}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Gazebo仿真环境}{49}{subsection.A.1}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}Gazebo安装与配置}{49}{lstlisting.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}AirSim仿真环境}{50}{subsection.A.2}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}AirSim安装}{50}{lstlisting.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Isaac Gym配置}{50}{subsection.A.3}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}Isaac Gym环境配置}{50}{lstlisting.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {B}RL算法实现代码示例}{51}{appendix.B}\protected@file@percent }
+\newlabel{app:code}{{B}{51}{RL算法实现代码示例}{appendix.B}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}PPO实现核心代码}{51}{subsection.B.1}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4}PPO核心实现}{51}{lstlisting.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}SAC实现核心代码}{52}{subsection.B.2}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5}SAC核心实现}{52}{lstlisting.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {C}超参数推荐表}{54}{appendix.C}\protected@file@percent }
+\newlabel{app:hyperparams}{{C}{54}{超参数推荐表}{appendix.C}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces PPO超参数推荐值}}{54}{table.7}\protected@file@percent }
+\newlabel{tab:ppo_params}{{7}{54}{PPO超参数推荐值}{table.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {D}常用数据集与基准}{54}{appendix.D}\protected@file@percent }
+\newlabel{app:datasets}{{D}{54}{常用数据集与基准}{appendix.D}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {D.1}飞行数据集}{54}{subsection.D.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces SAC超参数推荐值}}{55}{table.8}\protected@file@percent }
+\newlabel{tab:sac_params}{{8}{55}{SAC超参数推荐值}{table.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {D.2}仿真基准任务}{55}{subsection.D.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {E}学术会议与期刊}{55}{appendix.E}\protected@file@percent }
+\newlabel{app:venues}{{E}{55}{学术会议与期刊}{appendix.E}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {E.1}顶级会议}{55}{subsection.E.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {E.2}权威期刊}{55}{subsection.E.2}\protected@file@percent }
+\gdef \@abspage@last{56}

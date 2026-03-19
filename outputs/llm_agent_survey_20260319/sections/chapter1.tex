@@ -1,0 +1,245 @@
+% 第1章 引言 - 扩展内容
+\section{引言}\label{sec:intro}
+
+\subsection{研究背景与动机}
+
+\subsubsection{人工智能的发展历程}
+
+人工智能（Artificial Intelligence, AI）自1956年达特茅斯会议正式诞生以来，经历了数次发展浪潮。从早期的符号主义AI，到基于统计方法的机器学习，再到深度学习的兴起，AI技术不断突破认知和应用的边界。特别是2012年AlexNet在ImageNet竞赛中的突破性表现，标志着深度学习时代的到来，神经网络模型开始在计算机视觉、自然语言处理等领域展现出超越传统方法的性能。
+
+2017年，Vaswani等人提出的Transformer架构彻底改变了自然语言处理领域的格局。基于自注意力机制的Transformer模型能够并行处理序列数据，捕获长距离依赖关系，为后续大语言模型的发展奠定了架构基础。2018年，BERT和GPT等预训练语言模型的出现，展示了通过大规模无监督预训练获得通用语言表示的有效性，开启了预训练-微调（Pre-training and Fine-tuning）的新范式。
+
+\subsubsection{大语言模型的崛起}
+
+2020年，OpenAI发布的GPT-3（Generative Pre-trained Transformer 3）标志着大语言模型（Large Language Models, LLMs）时代的正式到来。GPT-3拥有1750亿参数，在零样本（Zero-shot）和少样本（Few-shot）学习设置下展现出惊人的语言理解和生成能力。这一突破性进展引发了对大规模语言模型的广泛关注和研究投入。
+
+随后，一系列具有影响力的大语言模型相继问世：
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{GPT系列}：GPT-3.5、GPT-4（OpenAI, 2022-2023）在推理、代码生成、多模态理解等方面持续提升
+    \item \textbf{LLaMA系列}：LLaMA、LLaMA-2（Meta, 2023）开源了高性能的基础模型，推动了学术界和工业界的创新
+    \item \textbf{PaLM系列}：PaLM、PaLM-2（Google, 2022-2023）展示了在推理和多语言处理上的强大能力
+    \item \textbf{Claude系列}：Claude、Claude-2（Anthropic, 2023）强调安全性和有用性的平衡
+    \item \textbf{开源生态}：Alpaca、Vicuna、WizardLM等基于LLaMA的微调模型丰富了开源生态
+\end{itemize}
+
+这些模型通常采用解码器-only的Transformer架构，通过在大规模文本语料上进行自监督学习，获得了丰富的世界知识和语言理解能力。形式上，LLM可以表示为条件概率分布：
+
+\begin{equation}\label{eq:llm_basic}
+    P(x_1, x_2, \ldots, x_n | x_{<1}) = \prod_{i=1}^{n} P(x_i | x_1, x_2, \ldots, x_{i-1}; \theta)
+\end{equation}
+
+其中，$x_i$表示第$i$个token，$\theta$表示模型参数。现代LLM通常包含数十亿到数千亿参数，在海量数据上进行训练。
+
+\subsubsection{从静态模型到动态智能体}
+
+尽管大语言模型在语言理解和生成方面取得了巨大成功，但传统的LLM主要作为\textbf{静态的文本生成器}，缺乏与外部世界交互的能力。它们无法：
+
+\begin{enumerate}[leftmargin=2em]
+    \item 获取实时信息（如当前天气、股票价格）
+    \item 执行实际操作（如发送邮件、调用API）
+    \item 进行多步骤规划和推理
+    \item 从环境反馈中学习和适应
+    \item 与其他智能体协作
+\end{enumerate}
+
+为了突破这些局限，研究人员开始探索将LLM作为\textbf{自主智能体（Autonomous Agents）}的核心引擎。这一转变的核心思想是：利用LLM强大的推理和规划能力，结合外部工具和环境的反馈，构建能够自主决策、执行动作并从经验中学习的智能系统。
+
+2022年，Yao等人提出的ReAct框架首次系统性地将推理（Reasoning）和行动（Acting）结合起来，展示了LLM在交互式决策任务中的潜力。随后，AutoGPT、LangChain、CrewAI等框架和工具的出现，进一步推动了LLM智能体技术的发展和应用。
+
+\subsection{LLM智能体的定义与特征}
+
+\subsubsection{形式化定义}
+
+LLM智能体可以形式化定义为一个扩展的智能体框架：
+
+\begin{definition}[LLM智能体]\label{def:llm_agent}
+一个LLM智能体$\mathcal{A}$是一个七元组$(\mathcal{L}, \mathcal{P}, \mathcal{A}, \mathcal{M}, \mathcal{R}, \mathcal{T}, \mathcal{E})$，其中：
+\begin{itemize}
+    \item $\mathcal{L}$：大语言模型，提供推理和生成能力
+    \item $\mathcal{P}$：规划模块，负责任务分解和策略生成
+    \item $\mathcal{A}$：行动空间，包含可调用的工具和操作
+    \item $\mathcal{M}$：记忆系统，存储历史信息和经验
+    \item $\mathcal{R}$：反思机制，支持自我评估和学习
+    \item $\mathcal{T}$：工具集合，扩展智能体的能力边界
+    \item $\mathcal{E}$：环境接口，实现与外部世界的交互
+\end{itemize}
+\end{definition}
+
+与传统基于强化学习的智能体不同，LLM智能体的核心决策引擎是预训练的语言模型，而非从头学习的策略网络。这使得LLM智能体能够利用预训练阶段获得的世界知识和推理能力，快速适应新任务。
+
+\subsubsection{核心特征}
+
+LLM智能体具有以下核心特征：
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{自主性}：能够在没有人类干预的情况下，自主感知环境、制定计划并执行动作
+    
+    \item \textbf{推理能力}：利用LLM的Chain-of-Thought等推理技术，进行多步骤逻辑推理
+    
+    \item \textbf{工具使用}：能够理解和使用各种外部工具（API、数据库、计算器等），扩展能力边界
+    
+    \item \textbf{记忆与学习}：通过记忆系统保存历史经验，通过反思机制持续改进
+    
+    \item \textbf{适应性}：能够根据环境反馈动态调整行为，适应变化的任务需求
+    
+    \item \textbf{可解释性}：生成的推理过程（思维链）提供了决策的可解释性
+\end{enumerate}
+
+\subsubsection{与传统智能体的区别}
+
+表~\ref{tab:agent_comparison}对比了LLM智能体与传统基于强化学习的智能体的主要区别：
+
+\begin{table}[htbp]
+    \centering
+    \caption{LLM智能体与传统智能体的对比}\label{tab:agent_comparison}
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \textbf{特性} & \textbf{传统RL智能体} & \textbf{LLM智能体} \\
+        \midrule
+        决策引擎 & 策略网络 & 大语言模型 \\
+        知识来源 & 环境交互学习 & 预训练知识 + 环境交互 \\
+        推理能力 & 隐式学习 & 显式推理（思维链） \\
+        泛化能力 & 任务特定 & 跨任务泛化 \\
+        样本效率 & 需要大量交互 & 零样本/少样本适应 \\
+        可解释性 & 较低 & 较高（思维链） \\
+        工具使用 & 需专门设计 & 自然语言接口 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{研究挑战与意义}
+
+\subsubsection{核心研究挑战}
+
+将LLM转化为自主智能体面临多方面的挑战：
+
+\textbf{1. 规划与推理挑战}
+
+复杂任务通常需要多步骤规划和推理。如何：
+\begin{itemize}
+    \item 将高层目标分解为可执行的子任务？
+    \item 处理规划过程中的不确定性和错误？
+    \item 实现长程规划和执行？
+\end{itemize}
+
+\textbf{2. 工具使用挑战}
+
+有效使用外部工具是LLM智能体的关键能力。如何：
+\begin{itemize}
+    \item 理解工具的功能和适用场景？
+    \item 生成正确的工具调用参数？
+    \item 处理工具调用失败和异常情况？
+    \item 组合多个工具完成复杂任务？
+\end{itemize}
+
+\textbf{3. 记忆与学习挑战}
+
+在长时间交互中保持上下文和积累经验。如何：
+\begin{itemize}
+    \item 有效管理有限的上下文窗口？
+    \item 从长期记忆中检索相关信息？
+    \item 从成功和失败中学习？
+\end{itemize}
+
+\textbf{4. 安全性挑战}
+
+确保LLM智能体的行为安全和可控。如何：
+\begin{itemize}
+    \item 防止提示注入和越狱攻击？
+    \item 避免工具滥用和有害操作？
+    \item 确保智能体行为符合人类价值观？
+\end{itemize}
+
+\subsubsection{研究意义与应用价值}
+
+LLM智能体的研究具有重要的理论意义和应用价值：
+
+\textbf{理论意义}：
+\begin{itemize}
+    \item 探索大语言模型的能力边界，理解其推理和规划机制
+    \item 研究语言模型与外部工具、环境的交互方式
+    \item 推动通用人工智能（AGI）的研究进展
+\end{itemize}
+
+\textbf{应用价值}：
+\begin{itemize}
+    \item \textbf{科学研究}：自动化文献综述、实验设计、数据分析
+    \item \textbf{软件开发}：代码生成、调试、文档编写、项目管理
+    \item \textbf{个人助理}：日程管理、信息检索、任务自动化
+    \item \textbf{教育培训}：个性化辅导、自动评估、知识问答
+    \item \textbf{商业应用}：客户服务、市场分析、决策支持
+\end{itemize}
+
+\subsection{综述范围与贡献}
+
+\subsubsection{综述范围}
+
+本综述聚焦于\textbf{大语言模型作为自主智能体的规划与执行引擎}，重点关注以下四个方面：
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{理论基础}：Chain-of-Thought推理、ReAct框架、Tool Learning等基础方法
+    \item \textbf{核心架构}：单智能体和多智能体架构的设计原则和典型实现
+    \item \textbf{关键组件}：规划、执行、记忆、反思等核心模块的技术细节
+    \item \textbf{安全性问题}：对抗攻击、数据安全、对齐与安全等挑战及防御机制
+\end{enumerate}
+
+本综述的时间范围主要覆盖2022年至2025年的研究进展，重点关注arXiv、NeurIPS、ICML、ICLR、ACL等顶级会议和期刊上发表的工作。
+
+\subsubsection{综述贡献}
+
+本综述的主要贡献包括：
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{系统性梳理}：首次从理论基础、架构设计、组件实现、安全性四个维度系统性地综述LLM智能体研究
+    
+    \item \textbf{深入技术分析}：深入分析各类方法的技术细节、优缺点和适用场景，提供批判性视角
+    
+    \item \textbf{全面文献覆盖}：调研100+篇相关文献，包括最新的综述论文和开创性工作
+    
+    \item \textbf{实践指导}：提供架构选型、组件设计、安全实践的实用建议
+    
+    \item \textbf{未来展望}：识别开放问题和未来研究方向，为后续研究提供参考
+\end{enumerate}
+
+\subsubsection{章节安排}
+
+本文的组织结构如图~\ref{fig:structure}所示，共分为七个章节，形成从理论到实践、从基础到应用的完整知识体系：
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[
+        node distance=0.8cm and 1.2cm,
+        box/.style={rectangle, rounded corners=4pt, minimum width=2.8cm, minimum height=0.9cm, text centered, font=\small, draw=darkgray, thick, fill=white}
+    ]
+        % 中心节点
+        \node[box, fill=primaryblue!20, minimum width=3.5cm] (center) {LLM智能体综述};
+        
+        % 周围节点
+        \node[box, above left=of center, text width=2.5cm] (sec2) {第2章 理论基础};
+        \node[box, above right=of center, text width=2.5cm] (sec3) {第3章 核心架构};
+        \node[box, left=of center, text width=2.5cm] (sec4) {第4章 关键组件};
+        \node[box, right=of center, text width=2.5cm] (sec5) {第5章 安全性};
+        \node[box, below left=of center, text width=2.5cm] (sec6) {第6章 评估基准};
+        \node[box, below right=of center, text width=2.5cm] (sec7) {第7章 未来方向};
+        
+        % 连接线
+        \draw[arrow] (center) -- (sec2);
+        \draw[arrow] (center) -- (sec3);
+        \draw[arrow] (center) -- (sec4);
+        \draw[arrow] (center) -- (sec5);
+        \draw[arrow] (center) -- (sec6);
+        \draw[arrow] (center) -- (sec7);
+    \end{tikzpicture}
+    \caption{综述章节结构}
+    \label{fig:structure}
+\end{figure}
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{第\ref{sec:foundation}章}介绍LLM智能体的理论基础，包括Chain-of-Thought推理、ReAct框架和Tool Learning
+    \item \textbf{第\ref{sec:architecture}章}分析核心架构，对比单智能体和多智能体架构的设计
+    \item \textbf{第\ref{sec:components}章}详细讨论关键组件，包括规划、执行、记忆和反思模块
+    \item \textbf{第\ref{sec:safety}章}系统梳理安全性问题，分析对抗攻击、数据安全和对齐挑战
+    \item \textbf{第\ref{sec:evaluation}章}总结评估基准和实验方法，对比不同方法的性能
+    \item \textbf{第\ref{sec:future}章}展望未来方向，讨论开放问题和研究趋势，并进行总结
+\end{itemize}

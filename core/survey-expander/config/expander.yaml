@@ -1,0 +1,55 @@
+# Survey Expander 配置文件
+
+# 扩展参数
+expansion:
+  # 末级标题最小字数
+  min_section_chars: 500
+  
+  # 单句段落最小字数
+  min_paragraph_chars: 100
+  
+  # 图表占比上限（相对于总页数）
+  max_figure_ratio: 0.3
+  
+  # 扩展策略优先级
+  strategies:
+    - depth_elaboration      # 深度阐述（优先）
+    - case_analysis          # 案例分析
+    - comparative_discussion # 对比讨论
+    - literature_review      # 文献综述
+
+# 质量检查清单
+checklist:
+  content:
+    - 扩展内容是否支撑章节主题？
+    - 与原文风格是否一致？
+    - 是否有重复或矛盾的内容？
+    - 末级标题字数是否 ≥500 字？
+  
+  figures:
+    - 图形图注是否清晰？
+    - 图表内容与正文是否一致？
+    - 图表总页数是否 ≤30%？
+    - TikZ 图表是否使用绝对坐标？
+  
+  citations:
+    - 交叉引用是否正确？（无 `??`）
+    - 所有扩充点是否有引用支撑？
+    - DOI/arXiv 链接是否完整？
+  
+  overall:
+    - 总页数是否达标？
+    - 框架结构是否完整？
+    - 编译是否无错误？
+
+# 章节扩展优先级
+priority:
+  high:      # 优先扩展
+    - 与核心论点强相关的章节
+  medium:    # 次级扩展
+    - 方法论章节
+    - 实验/对比章节
+  low:       # 谨慎扩展
+    - 结论和展望章节
+  avoid:     # 避免扩展
+    - 背景介绍章节

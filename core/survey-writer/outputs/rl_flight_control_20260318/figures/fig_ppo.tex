@@ -1,0 +1,45 @@
+% PPO算法框图
+\begin{tikzpicture}[
+    node distance=1.2cm,
+    box/.style={rectangle, rounded corners, draw=blue!60, fill=blue!5,
+                minimum width=2.8cm, minimum height=0.9cm, text centered, font=\small},
+    process/.style={rectangle, rounded corners, draw=orange!60, fill=orange!5,
+                    minimum width=2.5cm, minimum height=0.8cm, text centered, font=\small},
+    data/.style={rectangle, rounded corners, draw=green!60, fill=green!5,
+                 minimum width=2.2cm, minimum height=0.7cm, text centered, font=\small},
+    arrow/.style={-{Stealth[length=2mm]}, thick, black!50}
+]
+
+% Input
+\node[data] (env) at (0,0) {Environment};
+
+% Actor and Critic
+\node[box] (actor) at (-3,-2) {Actor Network\\$\pi_\theta(a|s)$};
+\node[box] (critic) at (3,-2) {Critic Network\\$V_\phi(s)$};
+
+% Action and Value
+\node[data] (action) at (-3,-4) {Action $a_t$};
+\node[data] (value) at (3,-4) {Value $V(s_t)$};
+
+% Collect Trajectory
+\node[process] (collect) at (0,-5.5) {Collect Trajectory\\$\{(s_t, a_t, r_t)\}$};
+
+% Compute Advantage
+\node[process] (advantage) at (0,-7) {Compute Advantage\\$\hat{A}_t$};
+
+% PPO Update
+\node[process] (update) at (0,-8.5) {PPO Update\\$L^{CLIP}(\theta)$};
+
+% Arrows
+\draw[arrow] (env) -- (actor);
+\draw[arrow] (env) -- (critic);
+\draw[arrow] (actor) -- (action);
+\draw[arrow] (critic) -- (value);
+\draw[arrow] (action) -- (collect);
+\draw[arrow] (value) -- (collect);
+\draw[arrow] (collect) -- (advantage);
+\draw[arrow] (advantage) -- (update);
+\draw[arrow, dashed] (update.east) -- ++(1.5,0) |- (actor.east);
+\draw[arrow, dashed] (update.west) -- ++(-1.5,0) |- (critic.west);
+
+\end{tikzpicture}

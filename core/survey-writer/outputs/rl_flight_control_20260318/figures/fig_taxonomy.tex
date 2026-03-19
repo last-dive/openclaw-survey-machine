@@ -1,0 +1,63 @@
+% 方法分类图 - 三种平台 × 多种算法
+\begin{tikzpicture}[
+    node distance=0.8cm,
+    platform/.style={rectangle, rounded corners=5pt, draw=blue!60, fill=blue!10,
+                     minimum width=3.5cm, minimum height=0.8cm, text centered, font=\small\bfseries},
+    algo/.style={rectangle, rounded corners=3pt, draw=gray!60, fill=gray!5,
+                 minimum width=2.8cm, minimum height=0.6cm, text centered, font=\scriptsize},
+    arrow/.style={-{Stealth[length=1.5mm]}, thick, gray!60}
+]
+
+% Root
+\node[platform, fill=blue!20] (root) at (0,0) {RL for Flight Control};
+
+% Platforms
+\node[platform] (multi) at (-5,-2) {Multirotor};
+\node[platform] (fixed) at (0,-2) {Fixed-Wing};
+\node[platform] (vtol) at (5,-2) {VTOL};
+
+% Algorithms for Multirotor
+\node[algo] (m1) at (-5,-3) {PPO};
+\node[algo] (m2) at (-5,-3.7) {SAC};
+\node[algo] (m3) at (-5,-4.4) {DQN/TD3};
+\node[algo] (m4) at (-5,-5.1) {MARL};
+\node[algo] (m5) at (-5,-5.8) {Transformer};
+
+% Algorithms for Fixed-Wing
+\node[algo] (f1) at (0,-3) {PPO};
+\node[algo] (f2) at (0,-3.7) {SAC};
+\node[algo] (f3) at (0,-4.4) {Adversarial RL};
+\node[algo] (f4) at (0,-5.1) {TD-MPC};
+\node[algo] (f5) at (0,-5.8) {Attention+PPO};
+
+% Algorithms for VTOL
+\node[algo] (v1) at (5,-3) {PPO};
+\node[algo] (v2) at (5,-3.7) {Offline RL};
+\node[algo] (v3) at (5,-4.4) {MARL};
+\node[algo] (v4) at (5,-5.1) {Meta-RL};
+\node[algo] (v5) at (5,-5.8) {Hierarchical RL};
+
+% Connections
+\draw[arrow] (root) -- (multi);
+\draw[arrow] (root) -- (fixed);
+\draw[arrow] (root) -- (vtol);
+
+\draw[arrow] (multi) -- (m1);
+\draw[arrow] (multi) -- (m2);
+\draw[arrow] (multi) -- (m3);
+\draw[arrow] (multi) -- (m4);
+\draw[arrow] (multi) -- (m5);
+
+\draw[arrow] (fixed) -- (f1);
+\draw[arrow] (fixed) -- (f2);
+\draw[arrow] (fixed) -- (f3);
+\draw[arrow] (fixed) -- (f4);
+\draw[arrow] (fixed) -- (f5);
+
+\draw[arrow] (vtol) -- (v1);
+\draw[arrow] (vtol) -- (v2);
+\draw[arrow] (vtol) -- (v3);
+\draw[arrow] (vtol) -- (v4);
+\draw[arrow] (vtol) -- (v5);
+
+\end{tikzpicture}

@@ -1,0 +1,118 @@
+# 文献调研Prompt
+# 用途: 系统性文献检索和筛选
+
+请对{主题}进行系统性文献调研。
+
+## 调研范围
+
+### 数据库
+- arXiv (cs, eess)
+- IEEE Xplore (TWC, TSP, TCST, TIE)
+- ACM Digital Library
+- 知网/万方 (中文文献)
+- Google Scholar
+
+### 时间范围
+- 重点: 2020-2026 (近5年)
+- 补充: 2015-2019
+- 经典: 2000-2014 (高被引)
+
+### 关键词组合
+
+**英文关键词**:
+```
+UAV communication delay
+time delay prediction
+time delay compensation
+time-delay system
+networked control system
+Smith predictor
+model predictive control
+Kalman filter
+```
+
+**中文关键词**:
+```
+无人机通信时延
+时滞辨识
+时滞补偿
+网络控制系统
+Smith预估器
+模型预测控制
+```
+
+## 输出格式
+
+### 1. 文献库 (literature_pool.json)
+
+```json
+{
+  "total": 120,
+  "by_year": {
+    "2024": 25,
+    "2023": 30,
+    "2022": 28,
+    "2021": 20,
+    "2020": 17
+  },
+  "by_venue": {
+    "IEEE_TWC": 15,
+    "IEEE_TSP": 12,
+    "IEEE_TCST": 10,
+    ...
+  },
+  "papers": [
+    {
+      "id": "P001",
+      "title": "...",
+      "authors": ["..."],
+      "venue": "...",
+      "year": 2024,
+      "abstract": "...",
+      "keywords": ["..."],
+      "citations": 50,
+      "relevance": 0.95,
+      "category": "时滞辨识"
+    }
+  ]
+}
+```
+
+### 2. 关键文献 (key_papers.md)
+
+筛选30篇核心文献，按主题分类:
+
+```markdown
+## 时滞辨识 (10篇)
+
+1. [P001] 作者. 标题. 期刊, 年份.
+   - 核心贡献: ...
+   - 与本文关系: ...
+
+## 制导信息预测 (10篇)
+...
+
+## 时滞补偿控制 (10篇)
+...
+```
+
+## 筛选标准
+
+### 质量优先级
+1. **顶刊**: IEEE TWC, TSP, TCST, TIE, TNNLS
+2. **顶会**: IEEE CDC, ACC, ICC, INFOCOM
+3. **权威综述**: 高被引 (>100), 近5年
+4. **经典文献**: 领域奠基性工作
+
+### 相关性评分
+- 0.9-1.0: 核心相关 (必须包含)
+- 0.8-0.9: 高度相关 (建议包含)
+- 0.7-0.8: 一般相关 (可选)
+- <0.7: 不相关 (排除)
+
+## 输出要求
+
+1. 总文献数: 100-150篇
+2. 关键文献: 30篇 (含详细摘要)
+3. 覆盖度: 3个子领域均衡分布
+4. 时效性: 近5年占60%+

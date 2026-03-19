@@ -1,0 +1,395 @@
+% 第3章 核心架构
+\section{核心架构}\label{sec:architecture}
+
+LLM智能体的架构设计决定了其能力边界和应用场景。本章系统分析单智能体和多智能体两种主要架构范式，深入探讨各类架构的设计原则、典型实现和适用场景。
+
+\subsection{单智能体架构}
+
+单智能体架构是最基础的LLM智能体形式，所有功能模块集成在一个智能体内。这种架构设计简单、易于实现，适合解决相对独立的任务。
+
+\subsubsection{通用架构模式}
+
+典型的单智能体架构遵循\textbf{感知-推理-行动}（Perception-Reasoning-Action）循环模式，如图~\ref{fig:single-agent}所示。
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[
+        node distance=1.2cm and 1.5cm,
+        component/.style={rectangle, rounded corners=4pt, minimum width=2.5cm, minimum height=1cm, text centered, font=\small, draw=darkgray, thick, fill=white}
+    ]
+        % 中心LLM
+        \node[component, fill=primaryblue!20, minimum width=3.5cm, minimum height=1.5cm] (llm) {\textbf{LLM核心}};
+        
+        % 周围组件
+        \node[component, above=of llm] (perception) {感知模块};
+        \node[component, left=of llm] (memory) {记忆系统};
+        \node[component, right=of llm] (action) {行动模块};
+        \node[component, below=of llm] (reflection) {反思机制};
+        
+        % 环境
+        \node[component, right=of action, fill=lightgray, minimum width=2cm] (env) {环境};
+        
+        % 连接
+        \draw[arrow, <->] (llm) -- (perception);
+        \draw[arrow, <->] (llm) -- (memory);
+        \draw[arrow, <->] (llm) -- (action);
+        \draw[arrow, <->] (llm) -- (reflection);
+        \draw[arrow, <->] (action) -- (env);
+        \draw[arrow, dashed] (perception.east) -- ++(0.5,0) |- (env.north);
+    \end{tikzpicture}
+    \caption{单智能体通用架构}
+    \label{fig:single-agent}
+\end{figure}
+
+\textbf{核心组件说明}：
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{感知模块}：接收环境输入，包括文本、图像、传感器数据等，进行预处理和特征提取
+    \item \textbf{LLM核心}：基于大语言模型的推理引擎，负责任务理解、规划生成和决策制定
+    \item \textbf{行动模块}：执行具体操作，包括工具调用、API请求、代码执行等
+    \item \textbf{记忆系统}：存储历史交互、中间结果和经验知识，支持长期上下文
+    \item \textbf{反思机制}：评估行动效果，识别错误并生成改进策略
+\end{itemize}
+
+\subsubsection{基于提示的架构}
+
+基于提示（Prompt-based）的架构通过精心设计的提示模板引导LLM完成特定任务。这种架构实现简单，无需微调模型，是目前最广泛采用的单智能体实现方式。
+
+\textbf{典型实现}：
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{零样本提示}：直接通过自然语言指令描述任务。例如："请总结以下文本的主要内容"。这种方式灵活性高，但对复杂任务的指导能力有限。
+    
+    \item \textbf{少样本提示}：提供几个示例帮助模型理解任务模式。研究表明，3-5个高质量示例通常足以让模型掌握任务模式。示例的选择应覆盖任务的主要变体。
+    
+    \item \textbf{Chain-of-Thought提示}：引导模型生成中间推理步骤。通过在示例中展示推理过程，显著提升模型在多步推理任务上的表现。例如："问题：一个农场有5只鸡，每只鸡每天下2个蛋。3天后有多少个蛋？答案：每只鸡每天下2个蛋，5只鸡每天下$5 \\times 2 = 10$个蛋。3天后共有$10 \\times 3 = 30$个蛋。"
+    
+    \item \textbf{结构化提示}：使用XML、JSON等格式组织提示内容，提高提示的清晰度和可解析性。例如使用$<$instruction$>$、$<$context$>$、$<$input$>$等标签明确各部分角色。
+\end{enumerate}
+
+\textbf{提示工程最佳实践}：
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{角色定义}：明确指定模型扮演的角色，如"你是一位经验丰富的数据分析师"
+    \item \textbf{上下文提供}：提供足够的背景信息，但避免信息过载
+    \item \textbf{输出格式规范}：明确指定期望的输出格式，如JSON、Markdown等
+    \item \textbf{约束条件}：明确说明必须遵守的约束和限制
+    \item \textbf{错误处理}：说明遇到无法处理的情况时应如何响应
+\end{itemize}
+
+\subsubsection{基于代码的架构}
+
+基于代码的架构将LLM的推理过程显式编码为可执行程序。这种架构提高了可解释性和可控性，特别适合需要精确计算和复杂控制流的任务。
+
+\textbf{代表性方法}：
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Program of Thoughts (PoT)}：将推理表示为Python代码，利用代码执行器进行精确计算。PoT在数学推理任务上表现优异，因为代码执行消除了LLM在算术计算上的错误。例如，对于复杂数学问题，模型生成Python代码而非直接计算，然后执行代码获得准确结果。
+    
+    \item \textbf{Toolformer}：在生成文本中插入工具调用标记，实现工具使用。模型通过自监督学习掌握何时以及如何使用工具，无需针对特定任务微调。
+    
+    \item \textbf{Code-as-Policies}：将任务策略表示为代码，支持复杂控制流。这种方法将高层指令转化为可执行的代码策略，适用于机器人控制等需要精确动作序列的任务。
+\end{itemize}
+
+\textbf{代码执行安全}：基于代码的架构需要特别注意安全性。通常采用以下措施：
+\begin{itemize}[leftmargin=2em]
+    \item 在沙箱环境中执行代码，限制系统访问
+    \item 设置执行超时，防止无限循环
+    \item 限制可导入的模块，禁止危险操作
+    \item 对生成的代码进行静态分析，检测潜在风险
+\end{itemize}
+
+\subsubsection{混合架构}
+
+混合架构结合多种方法的优势，在不同场景下采用不同的推理模式。
+
+\begin{table}[htbp]
+    \centering
+    \caption{单智能体架构模式对比}
+    \label{tab:single-agent-comparison}
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        \textbf{架构模式} & \textbf{实现难度} & \textbf{灵活性} & \textbf{适用场景} \\
+        \midrule
+        基于提示 & 低 & 高 & 通用任务 \\
+        基于代码 & 中 & 中 & 计算密集型任务 \\
+        混合架构 & 高 & 很高 & 复杂多步骤任务 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{多智能体架构}
+
+多智能体系统通过多个specialized agents的协作，解决单智能体难以处理的复杂任务。多智能体架构的核心优势在于：任务分解、并行处理、错误容忍和知识互补。
+
+\subsubsection{协作式架构}
+
+协作式架构中，多个智能体通过分工合作完成复杂任务。典型的协作模式包括：
+
+\textbf{1. 层级协作}
+
+层级协作架构采用主从（Master-Slave）模式，一个主智能体负责任务分解和协调，多个子智能体负责具体执行。
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[
+        node distance=1cm and 2cm,
+        agent/.style={rectangle, rounded corners=4pt, minimum width=2.5cm, minimum height=0.9cm, text centered, font=\small, draw=darkgray, thick}
+    ]
+        % 主智能体
+        \node[agent, fill=primaryblue!20] (master) {主智能体};
+        
+        % 子智能体
+        \node[agent, fill=accentgreen!15, below left=of master] (slave1) {子智能体1};
+        \node[agent, fill=accentgreen!15, below=of master] (slave2) {子智能体2};
+        \node[agent, fill=accentgreen!15, below right=of master] (slave3) {子智能体3};
+        
+        % 连接
+        \draw[arrow, <->] (master) -- (slave1);
+        \draw[arrow, <->] (master) -- (slave2);
+        \draw[arrow, <->] (master) -- (slave3);
+    \end{tikzpicture}
+    \caption{层级协作架构}
+    \label{fig:hierarchical}
+\end{figure}
+
+\textbf{2. 平等协作}
+
+平等协作架构中，多个智能体地位平等，通过协商达成共识。这种架构适合需要集思广益的决策任务。
+
+\textbf{3. 流水线协作}
+
+流水线协作将任务分解为顺序执行的多个阶段，每个智能体负责一个阶段。这种架构适合具有明确流程的任务。
+
+\subsubsection{MetaGPT}
+
+MetaGPT\cite{hong2024metagpt}是将软件开发的SOP（Standard Operating Procedures）编码到多智能体协作中的代表性框架。
+
+\textbf{核心思想}：将软件开发流程分解为产品管理、架构设计、项目管理、代码开发、测试等角色，每个角色由一个专门的智能体扮演。
+
+\textbf{工作流程}：
+\begin{enumerate}[leftmargin=2em]
+    \item 产品经理智能体分析需求，生成PRD（产品需求文档）
+    \item 架构师智能体设计系统架构，生成技术设计文档
+    \item 项目经理智能体制定开发计划，分配任务
+    \item 工程师智能体编写代码实现功能
+    \item 测试智能体进行代码审查和测试
+\end{enumerate}
+
+\subsubsection{CAMEL}
+
+CAMEL（Communicative Agents for Mind Exploration of Large Language Model Society）\cite{li2023camel}采用角色扮演机制促进智能体间的协作。
+
+\textbf{核心机制}：
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{角色分配}：为两个智能体分配互补的角色（如AI助手和用户体验设计师）
+    \item \textbf{任务细化}：通过对话逐步细化和明确任务目标
+    \item \textbf{协作执行}：两个智能体通过多轮对话协作完成任务
+\end{itemize}
+
+\subsubsection{AutoGen}
+
+AutoGen~\cite{wu2023autogen}是微软提出的多智能体对话框架，支持灵活的智能体定制和对话模式设计。
+
+\textbf{关键特性}：
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{可定制智能体}：支持自定义智能体的能力、行为和交互模式
+    \item \textbf{人机协作}：支持人类参与智能体对话，实现人机混合协作
+    \item \textbf{代码执行}：内置代码执行环境，支持智能体执行生成的代码
+    \item \textbf{灵活编排}：支持顺序、并行、条件等多种对话模式
+\end{itemize}
+
+\subsection{架构对比与选型}
+
+\subsubsection{单智能体 vs 多智能体}
+
+表~\ref{tab:architecture-comparison}对比了单智能体和多智能体架构的主要特点：
+
+\begin{table}[htbp]
+    \centering
+    \caption{单智能体与多智能体架构对比}
+    \label{tab:architecture-comparison}
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \textbf{特性} & \textbf{单智能体} & \textbf{多智能体} \\
+        \midrule
+        系统复杂度 & 低 & 高 \\
+        任务处理能力 & 有限 & 强 \\
+        并行处理能力 & 无 & 有 \\
+        错误容忍性 & 低 & 高 \\
+        通信开销 & 无 & 有 \\
+        可扩展性 & 有限 & 好 \\
+        适用任务复杂度 & 简单-中等 & 中等-复杂 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsubsection{架构选型指南}
+
+选择合适的架构需要考虑以下因素：
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{任务复杂度}：简单任务适合单智能体，复杂任务需要多智能体协作
+    \item \textbf{任务分解性}：可明确分解为子任务的场景适合多智能体
+    \item \textbf{实时性要求}：需要快速响应的场景可能更适合简化的单智能体
+    \item \textbf{资源约束}：多智能体架构需要更多的计算和通信资源
+    \item \textbf{可解释性需求}：单智能体的决策过程通常更容易追踪和解释
+\end{enumerate}
+
+\subsubsection{主流框架详细对比}
+
+表~\ref{tab:framework-detailed-comparison}详细对比了当前主流LLM智能体框架的技术特性：
+
+\begin{table}[htbp]
+    \centering
+    \caption{主流LLM智能体框架详细对比}
+    \label{tab:framework-detailed-comparison}
+    \begin{tabular}{@{}lcccccc@{}}
+        \toprule
+        \textbf{框架} & \textbf{架构类型} & \textbf{协作模式} & \textbf{工具支持} & \textbf{记忆机制} & \textbf{代码执行} & \textbf{人机协作} \\
+        \midrule
+        AutoGPT & 单智能体 & 无 & 丰富 & 向量数据库 & 沙箱 & 有限 \\
+        LangChain & 混合 & 可扩展 & 极丰富 & 多种可选 & 支持 & 支持 \\
+        MetaGPT & 多智能体 & 角色扮演 & 中等 & 共享记忆 & 支持 & 有限 \\
+        CAMEL & 多智能体 & 双向对话 & 基础 & 对话历史 & 不支持 & 不支持 \\
+        AutoGen & 多智能体 & 灵活编排 & 丰富 & 可定制 & 内置 & 原生支持 \\
+        CrewAI & 多智能体 & 流程驱动 & 中等 & 短期记忆 & 不支持 & 有限 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\textbf{框架选型决策流程}：
+
+图~\ref{fig:framework-selection}展示了框架选型的决策流程。首先评估任务复杂度：如果是简单任务（单步骤或少步骤），选择单智能体架构；如果是复杂任务（需要多步骤协作），则考虑多智能体架构。其次评估工具需求：如果需要丰富的工具集成，优先考虑LangChain或AutoGen；如果工具需求简单，可选择更轻量的框架。最后考虑部署环境：如果需要人机协作，AutoGen是最佳选择；如果追求完全自动化，MetaGPT或AutoGPT更合适。
+
+\begin{figure}[htbp]
+    \centering
+    \input{figures/framework_selection.tex}
+    \caption{LLM智能体框架选型决策流程}
+    \label{fig:framework-selection}
+\end{figure}
+
+\subsubsection{新兴架构趋势}
+
+近年来，LLM智能体架构呈现出以下发展趋势：
+
+\textbf{1. 混合架构兴起}
+
+单一架构难以满足复杂场景需求，混合架构结合单智能体的简洁性和多智能体的协作能力。例如，一个主智能体负责任务分解和协调，多个子智能体并行执行子任务，同时保持单智能体级别的决策效率。
+
+\textbf{2. 动态架构调整}
+
+静态架构难以适应动态环境，研究者开始探索根据任务特性和执行反馈动态调整架构的方法。DyLAN（Dynamic LLM-Agent Network）提出根据任务难度动态调整智能体数量和连接方式。
+
+\textbf{3. 层级化架构}
+
+借鉴组织管理学，层级化架构将智能体组织为多层结构：战略层负责高层规划，战术层负责策略制定，执行层负责具体操作。这种架构提高了系统的可扩展性和容错性。
+
+\textbf{4. 模块化与插件化}
+
+现代框架趋向于模块化设计，支持灵活的功能扩展。LangChain的链式组件、AutoGen的智能体定制都体现了这一趋势。插件化架构允许开发者按需添加功能模块，降低了开发和维护成本。
+
+\subsection{架构设计原则}
+
+基于对现有架构的分析，我们总结出以下设计原则：
+
+\textbf{1. 模块化设计}
+
+将智能体功能划分为独立的模块（感知、推理、行动、记忆、反思），便于独立开发、测试和优化。
+
+\textbf{2. 接口标准化}
+
+定义清晰的模块间接口，支持组件的灵活替换和升级。
+
+\textbf{3. 容错机制}
+
+设计错误检测和恢复机制，确保智能体在遇到异常时能够优雅降级或恢复。
+
+\textbf{4. 可观测性}
+
+提供丰富的日志和监控能力，便于调试和性能分析。
+
+\textbf{5. 渐进式复杂}
+
+从简单的单智能体开始，根据需求逐步引入多智能体协作。
+
+\subsection{架构实现案例分析}
+
+\subsubsection{案例1：AutoGPT架构分析}
+
+AutoGPT是最早引起广泛关注的自主智能体框架之一。其架构设计体现了单智能体的极致自动化理念。
+
+\textbf{核心组件}：
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{任务队列}：维护待执行的任务列表，支持任务优先级排序
+    \item \textbf{长期记忆}：使用向量数据库存储历史经验和知识
+    \item \textbf{代码执行}：内置Python代码执行环境，支持复杂计算
+    \item \textbf{网页浏览}：集成网页浏览能力，可获取实时信息
+\end{itemize}
+
+\textbf{执行流程}：
+\begin{enumerate}[leftmargin=2em]
+    \item 用户输入目标，AutoGPT生成初始任务列表
+    \item 从任务队列中取出最高优先级任务
+    \item LLM分析任务，决定执行动作（思考、使用工具、执行代码等）
+    \item 执行动作并获取观察结果
+    \item 根据结果更新任务列表和长期记忆
+    \item 重复步骤2-5直到任务完成或达到最大迭代次数
+\end{enumerate}
+
+\textbf{优势与局限}：
+
+优势在于极高的自动化程度和强大的工具集成能力。局限在于容易陷入循环、缺乏有效的错误恢复机制、长期记忆检索准确性有限。
+
+\subsubsection{案例2：MetaGPT多智能体协作机制}
+
+MetaGPT将软件开发的SOP（标准操作流程）编码到多智能体协作中，是领域特定多智能体架构的典范。
+
+\textbf{角色设计}：
+
+MetaGPT定义了6个核心角色，每个角色都有明确的职责和输出规范：
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{产品经理}：分析需求，输出PRD（产品需求文档）
+    \item \textbf{架构师}：设计系统架构，输出技术设计文档
+    \item \textbf{项目经理}：制定开发计划，分配任务
+    \item \textbf{工程师}：编写代码实现功能
+    \item \textbf{QA工程师}：设计测试用例，执行测试
+    \item \textbf{代码审查员}：审查代码质量
+\end{enumerate}
+
+\textbf{协作机制}：
+
+MetaGPT采用\textbf{结构化消息传递}机制。每个智能体的输出必须符合预定义的格式（如PRD模板、代码规范），下游智能体解析结构化输入并生成结构化输出。这种机制确保了协作的规范性和可追溯性。
+
+\textbf{记忆共享}：
+
+所有智能体共享同一个\textbf{全局记忆}，包括产品文档、技术设计、代码库等。这种设计确保了信息的一致性和可追溯性，但也带来了信息过载的挑战。
+
+\textbf{性能表现}：
+
+在HumanEval和MBPP等代码生成基准上，MetaGPT显著优于单智能体基线。例如，在HumanEval上，MetaGPT的pass@1达到85.9\%，而GPT-4单智能体基线仅为67\%。这表明多智能体协作能够有效提升复杂任务的完成质量。
+
+\subsubsection{案例3：AutoGen的灵活编排机制}
+
+AutoGen是微软提出的多智能体对话框架，其核心优势在于\textbf{灵活的对话编排}能力。
+
+\textbf{智能体定制}：
+
+AutoGen支持高度自定义的智能体配置：
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{系统消息}：定义智能体的角色和行为准则
+    \item \textbf{LLM配置}：支持不同的基础模型和参数设置
+    \item \textbf{工具绑定}：为智能体绑定特定的工具集合
+    \item \textbf{人类参与模式}：设置人类介入的时机和方式
+\end{itemize}
+
+\textbf{对话模式}：
+
+AutoGen支持多种对话模式：
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{一对一}：两个智能体之间的对话
+    \item \textbf{小组讨论}：多个智能体参与的群聊
+    \item \textbf{层级汇报}：下级智能体向上级智能体汇报
+    \item \textbf{广播}：一个智能体向多个智能体发送消息
+\end{enumerate}
+
+\textbf{代码执行集成}：
+
+AutoGen内置代码执行环境，智能体生成的代码可以直接在对话中执行，执行结果自动返回给智能体。这种设计特别适合需要代码交互的任务（如数据分析、算法开发）。

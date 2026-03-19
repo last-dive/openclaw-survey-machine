@@ -1,0 +1,43 @@
+% 综述整体结构图
+\begin{tikzpicture}[
+    node distance=1.2cm and 2cm,
+    chapter/.style={rectangle, rounded corners=8pt, minimum width=3.5cm, minimum height=1.2cm, text centered, font=\small\bfseries, draw=black!70, thick, fill=blue!15},
+    foundation/.style={rectangle, rounded corners=8pt, minimum width=3.5cm, minimum height=1.2cm, text centered, font=\small\bfseries, draw=black!70, thick, fill=green!15},
+    component/.style={rectangle, rounded corners=8pt, minimum width=3.5cm, minimum height=1.2cm, text centered, font=\small\bfseries, draw=black!70, thick, fill=orange!15},
+    safety/.style={rectangle, rounded corners=8pt, minimum width=3.5cm, minimum height=1.2cm, text centered, font=\small\bfseries, draw=black!70, thick, fill=red!15},
+    eval/.style={rectangle, rounded corners=8pt, minimum width=3.5cm, minimum height=1.2cm, text centered, font=\small\bfseries, draw=black!70, thick, fill=purple!15},
+    arrow/.style={-{Stealth[length=2.5mm]}, thick, black!60}
+]
+    % 第1章 - 引言
+    \node[chapter] (ch1) {第1章\\引言};
+    
+    % 第2章 - 理论基础
+    \node[foundation, below left=of ch1] (ch2) {第2章\\理论基础};
+    
+    % 第3章 - 核心架构
+    \node[chapter, below=of ch1] (ch3) {第3章\\核心架构};
+    
+    % 第4章 - 关键组件
+    \node[component, below right=of ch1] (ch4) {第4章\\关键组件};
+    
+    % 第5章 - 安全性
+    \node[safety, below=2cm of ch3] (ch5) {第5章\\安全性问题};
+    
+    % 第6章 - 实验评估
+    \node[eval, below left=2cm and 1cm of ch5] (ch6) {第6章\\实验与评估};
+    
+    % 第7章 - 未来方向
+    \node[chapter, below right=2cm and 1cm of ch5] (ch7) {第7章\\未来方向};
+    
+    % 连接线
+    \draw[arrow] (ch1) -- (ch2);
+    \draw[arrow] (ch1) -- (ch3);
+    \draw[arrow] (ch1) -- (ch4);
+    \draw[arrow] (ch2) -- (ch3);
+    \draw[arrow] (ch3) -- (ch4);
+    \draw[arrow] (ch3) -- (ch5);
+    \draw[arrow] (ch4) -- (ch5);
+    \draw[arrow] (ch5) -- (ch6);
+    \draw[arrow] (ch5) -- (ch7);
+    \draw[arrow] (ch6) -- (ch7);
+\end{tikzpicture}

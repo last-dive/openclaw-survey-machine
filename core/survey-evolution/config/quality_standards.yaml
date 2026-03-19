@@ -1,0 +1,118 @@
+# Survey Evolution 质量标准配置
+
+# 评分权重
+weights:
+  structure: 15
+  introduction: 10
+  framework: 15
+  depth: 15
+  citation: 15
+  figures: 10
+  formatting: 10
+  future: 10
+
+# 阈值设置
+thresholds:
+  # 章节数量
+  min_sections: 5
+  min_subsections_per_section: 2
+  
+  # 引用数量
+  min_citations: 30
+  min_recent_citations_percent: 60  # 近5年文献占比
+  min_top_venue_citations_percent: 70  # 顶会顶刊占比
+  
+  # 图表数量
+  min_figures: 3
+  min_tables: 3
+  
+  # 公式数量
+  min_equations: 5
+  
+  # 批判性分析
+  min_critical_analysis: 10
+  
+  # 段落长度
+  min_subsubsection_length: 300
+
+# 等级标准
+grades:
+  A_plus:
+    min_score: 90
+    description: "可投稿顶刊"
+  A:
+    min_score: 80
+    description: "可投稿核心期刊"
+  B_plus:
+    min_score: 70
+    description: "需进一步完善"
+  B:
+    min_score: 60
+    description: "需大幅修改"
+  C:
+    min_score: 0
+    description: "不合格"
+
+# 检查规则
+rules:
+  # 结构检查
+  structure:
+    required_sections:
+      - "引言"
+      - "Introduction"
+    optional_sections:
+      - "结论"
+      - "展望"
+      - "未来"
+      - "Conclusion"
+      - "Future"
+      
+  # 引言检查
+  introduction:
+    required_elements:
+      - "背景"
+      - "Background"
+      - "问题"
+      - "Problem"
+      - "Challenge"
+    recommended_elements:
+      - "贡献"
+      - "Contribution"
+      - "结构"
+      - "Structure"
+      
+  # 引用检查
+  citation:
+    top_venues:
+      - "Nature"
+      - "Science"
+      - "IEEE"
+      - "ACM"
+      - "NeurIPS"
+      - "ICML"
+      - "ICLR"
+      - "CVPR"
+      - "ICCV"
+      - "ECCV"
+      - "RSS"
+      - "ICRA"
+      - "IROS"
+      - "CoRL"
+      
+  # 图表检查
+  figures:
+    required_types:
+      - "framework"  # 方法分类框架图
+      - "comparison"  # 方法对比表
+    optional_types:
+      - "roadmap"  # 技术路线图
+      - "algorithm"  # 算法流程图
+      
+  # 格式检查
+  formatting:
+    forbidden_patterns:
+      - "\\n\\(\\d+\\)[^\\\\]"  # 孤立列举
+    required_patterns:
+      - "图~\\\\ref"
+      - "表~\\\\ref"
+      - "\\\\label"

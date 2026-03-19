@@ -1,0 +1,66 @@
+% 安全威胁分类图（优化尺寸版本）
+\resizebox{0.95\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.6cm and 1.2cm,
+    main/.style={rectangle, rounded corners=6pt, minimum width=2.5cm, minimum height=1cm, text centered, font=\small\bfseries, draw=black!70, fill=red!20},
+    sub/.style={rectangle, rounded corners=4pt, minimum width=2.2cm, minimum height=0.8cm, text centered, font=\scriptsize, draw=black!60, fill=red!8},
+    arrow/.style={-{Stealth[length=1.8mm]}, thick, black!50}
+]
+    % 中心节点
+    \node[main] (center) {LLM智能体安全威胁};
+    
+    % 第一层分类
+    \node[main, above left=1.2cm and 2cm of center] (attack) {对抗攻击};
+    \node[main, above right=1.2cm and 2cm of center] (privacy) {隐私安全};
+    \node[main, below left=1.2cm and 2cm of center] (align) {对齐安全};
+    \node[main, below right=1.2cm and 2cm of center] (tool) {工具安全};
+    
+    % 对抗攻击子类
+    \node[sub, above=0.5cm of attack] (prompt) {提示注入};
+    \node[sub, left=0.2cm of prompt] (direct) {直接注入};
+    \node[sub, right=0.2cm of prompt] (indirect) {间接注入};
+    \node[sub, below left=0.5cm of attack] (jailbreak) {越狱攻击};
+    \node[sub, below right=0.5cm of attack] (adversarial) {对抗样本};
+    
+    % 隐私安全子类
+    \node[sub, above=0.5cm of privacy] (extract) {数据提取};
+    \node[sub, left=0.2cm of extract] (member) {成员推理};
+    \node[sub, right=0.2cm of extract] (inversion) {模型反演};
+    \node[sub, below=0.5cm of privacy] (leak) {信息泄露};
+    
+    % 对齐安全子类
+    \node[sub, left=0.5cm of align] (value) {价值偏离};
+    \node[sub, right=0.5cm of align] (harmful) {有害生成};
+    \node[sub, below=0.5cm of align] (backdoor) {后门攻击};
+    
+    % 工具安全子类
+    \node[sub, above=0.5cm of tool] (abuse) {工具滥用};
+    \node[sub, below left=0.5cm of tool] (chain) {链式攻击};
+    \node[sub, below right=0.5cm of tool] (privilege) {权限提升};
+    
+    % 连接线
+    \draw[arrow] (center) -- (attack);
+    \draw[arrow] (center) -- (privacy);
+    \draw[arrow] (center) -- (align);
+    \draw[arrow] (center) -- (tool);
+    
+    \draw[arrow] (attack) -- (prompt);
+    \draw[arrow] (prompt) -- (direct);
+    \draw[arrow] (prompt) -- (indirect);
+    \draw[arrow] (attack) -- (jailbreak);
+    \draw[arrow] (attack) -- (adversarial);
+    
+    \draw[arrow] (privacy) -- (extract);
+    \draw[arrow] (extract) -- (member);
+    \draw[arrow] (extract) -- (inversion);
+    \draw[arrow] (privacy) -- (leak);
+    
+    \draw[arrow] (align) -- (value);
+    \draw[arrow] (align) -- (harmful);
+    \draw[arrow] (align) -- (backdoor);
+    
+    \draw[arrow] (tool) -- (abuse);
+    \draw[arrow] (tool) -- (chain);
+    \draw[arrow] (tool) -- (privilege);
+\end{tikzpicture}%
+}

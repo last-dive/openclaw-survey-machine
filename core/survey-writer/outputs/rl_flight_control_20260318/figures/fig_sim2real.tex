@@ -1,0 +1,43 @@
+% Sim-to-Real技术路线图
+\begin{tikzpicture}[
+    node distance=2.5cm,
+    stage/.style={rectangle, rounded corners=8pt, draw=blue!60, fill=blue!10,
+                  minimum width=3.5cm, minimum height=1.5cm, text centered, font=\small\bfseries},
+    tech/.style={rectangle, rounded corners=5pt, draw=gray!60, fill=gray!5,
+                 minimum width=3cm, minimum height=0.8cm, text centered, font=\scriptsize},
+    arrow/.style={-{Stealth[length=3mm]}, ultra thick, blue!40},
+    label/.style={font=\footnotesize\itshape, text=gray!70!black}
+]
+
+% Main stages
+\node[stage] (sim) at (0,0) {Simulation\\Training};
+\node[stage] (bridge) at (5,0) {Domain\\Bridging};
+\node[stage] (real) at (10,0) {Real-World\\Deployment};
+
+% Technologies
+\node[tech] (dr) at (5,2) {Domain Randomization};
+\node[tech] (si) at (5,1) {System Identification};
+\node[tech] (meta) at (5,-1) {Meta-Learning};
+\node[tech] (adapt) at (5,-2) {Online Adaptation};
+
+% Arrows
+\draw[arrow] (sim) -- (bridge);
+\draw[arrow] (bridge) -- (real);
+
+% Tech connections
+\draw[-{Stealth[length=1.5mm]}, gray!50] (dr) -- (bridge);
+\draw[-{Stealth[length=1.5mm]}, gray!50] (si) -- (bridge);
+\draw[-{Stealth[length=1.5mm]}, gray!50] (meta) -- (bridge);
+\draw[-{Stealth[length=1.5mm]}, gray!50] (adapt) -- (bridge);
+
+% Labels
+\node[label] at (2.5,0.5) {Train in Sim};
+\node[label] at (7.5,0.5) {Deploy on UAV};
+
+% Additional details
+\node[font=\scriptsize, text width=3cm, align=center] at (0,-1.5) 
+    {High-fidelity\\Physics Engine\\Millions of Steps};
+\node[font=\scriptsize, text width=3cm, align=center] at (10,-1.5) 
+    {Real Sensors\\Real Dynamics\\Safety Constraints};
+
+\end{tikzpicture}

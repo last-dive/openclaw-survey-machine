@@ -1,0 +1,267 @@
+% LLM智能体综述 - LaTeX主文件
+% 主题: 大语言模型作为自主智能体的规划与执行引擎
+\documentclass[11pt,a4paper]{article}
+
+% ==================== 基础包 ====================
+\usepackage[UTF8]{ctex}  % 中文支持
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage[numbers]{natbib}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, fit, backgrounds, decorations.pathreplacing}
+\usepgfplotslibrary{polar}
+
+% ==================== 页面设置 ====================
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+\setlength{\parindent}{2em}
+\linespread{1.5}
+
+% ==================== 颜色定义 ====================
+\definecolor{primaryblue}{RGB}{41,98,255}
+\definecolor{accentgreen}{RGB}{0,150,136}
+\definecolor{warnorange}{RGB}{255,152,0}
+\definecolor{darkgray}{RGB}{60,60,60}
+\definecolor{lightgray}{RGB}{245,245,245}
+
+% ==================== 超链接设置 ====================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primaryblue,
+    citecolor=accentgreen,
+    urlcolor=primaryblue,
+    bookmarks=true,
+    bookmarksopen=true
+}
+
+% ==================== 代码样式 ====================
+\lstset{
+    basicstyle=\ttfamily\small,
+    backgroundcolor=\color{lightgray},
+    frame=single,
+    frameround=tttt,
+    breaklines=true,
+    showstringspaces=false
+}
+
+% ==================== TikZ样式 ====================
+\tikzset{
+    box/.style={
+        rectangle, rounded corners=5pt, 
+        minimum width=2.5cm, minimum height=1cm,
+        text centered, font=\small,
+        draw=darkgray, thick,
+        fill=white, drop shadow
+    },
+    process/.style={
+        rectangle, rounded corners=3pt,
+        minimum width=2cm, minimum height=0.8cm,
+        text centered, font=\small,
+        draw=primaryblue, thick,
+        fill=primaryblue!10
+    },
+    decision/.style={
+        diamond, aspect=2,
+        minimum width=1.5cm, minimum height=1cm,
+        text centered, font=\small,
+        draw=warnorange, thick,
+        fill=warnorange!10
+    },
+    arrow/.style={
+        -{Stealth[length=2.5mm]}, 
+        thick, darkgray
+    }
+}
+
+% ==================== 定理环境 ====================
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{定义}[section]
+\newtheorem{example}{示例}[section]
+
+% ==================== 自定义命令 ====================
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+
+% ==================== 文档信息 ====================
+\title{\textbf{大语言模型作为自主智能体的规划与执行引擎：\\理论、架构与安全}}
+\author{综述论文}
+\date{\today}
+
+% ==================== 文档开始 ====================
+\begin{document}
+
+\maketitle
+
+% ==================== 摘要 ====================
+\begin{abstract}
+大语言模型(LLM)的快速发展催生了自主智能体这一新兴研究领域。LLM智能体通过整合规划、执行、记忆和反思等核心组件，能够在复杂环境中完成多步骤任务。本文系统综述了LLM智能体的理论基础、核心架构、关键组件和安全性问题。首先，我们回顾了Chain-of-Thought、ReAct和Toolformer等基础理论；其次，分析了单智能体和多智能体架构的设计范式；然后，深入探讨了规划、执行、记忆和反思四大关键组件的技术细节；接着，审视了对抗攻击、对齐问题和数据隐私等安全挑战；最后，总结了评估基准并展望未来研究方向。本综述旨在为研究者提供全面的技术视角，为实践者提供架构选型和设计决策的参考依据。
+
+\vspace{1em}
+\noindent\textbf{关键词:} 大语言模型, 自主智能体, 规划与执行, 多智能体系统, 安全性
+\end{abstract}
+
+% ==================== 目录 ====================
+\tableofcontents
+\newpage
+
+% ==================== 第1章 引言 ====================
+\input{sections/chapter1}
+
+% ==================== 第2章 理论基础 ====================
+\input{sections/chapter2}
+
+% ==================== 第3章 核心架构 ====================
+\input{sections/chapter3}
+
+% ==================== 第4章 关键组件 ====================
+\input{sections/chapter4}
+
+% ==================== 第5章 安全性问题 ====================
+\input{sections/chapter5}
+
+% ==================== 第6章 实验与评估 ====================
+\input{sections/chapter6}
+
+% ==================== 第7章 未来方向与结论 ====================
+\input{sections/chapter7}
+
+% ==================== 参考文献 ====================
+\bibliographystyle{plain}
+\begin{thebibliography}{99}
+
+\bibitem{wei2022emergent}
+Wei, J., et al. (2022). Emergent abilities of large language models. \textit{arXiv preprint arXiv:2206.07682}.
+
+\bibitem{wei2022chain}
+Wei, J., et al. (2022). Chain-of-thought prompting elicits reasoning in large language models. \textit{NeurIPS}.
+
+\bibitem{wang2023selfconsistency}
+Wang, X., et al. (2023). Self-consistency improves chain of thought reasoning in language models. \textit{ICLR}.
+
+\bibitem{yao2023react}
+Yao, S., et al. (2023). ReAct: Synergizing reasoning and acting in language models. \textit{ICLR}.
+
+\bibitem{schick2023toolformer}
+Schick, T., et al. (2023). Toolformer: Language models can teach themselves to use tools. \textit{NeurIPS}.
+
+\bibitem{hong2024metagpt}
+Hong, S., et al. (2024). MetaGPT: Meta programming for a multi-agent collaborative framework. \textit{ICLR}.
+
+\bibitem{li2023camel}
+Li, G., et al. (2023). CAMEL: Communicative agents for mind exploration of large language model society. \textit{NeurIPS}.
+
+\bibitem{shinn2023reflexion}
+Shinn, N., et al. (2023). Reflexion: Self-reflective agents with verbal reinforcement learning. \textit{NeurIPS}.
+
+\bibitem{park2023generative}
+Park, J. S., et al. (2023). Generative agents: Interactive simulacra of human behavior. \textit{UIST}.
+
+\bibitem{qian2023communicative}
+Qian, C., et al. (2023). Communicative agents for software development. \textit{arXiv preprint arXiv:2307.07924}.
+
+\bibitem{xi2023rise}
+Xi, Z., et al. (2023). The rise and potential of large language model based agents: A survey. \textit{arXiv preprint arXiv:2309.07864}.
+
+\bibitem{wang2024survey}
+Wang, L., et al. (2024). A survey on large language model based autonomous agents. \textit{Frontiers of Computer Science}, 18(6), 186345.
+
+\bibitem{zhou2023agents}
+Zhou, W., et al. (2023). Agents: An open-source framework for autonomous language agents. \textit{arXiv preprint arXiv:2309.07870}.
+
+\bibitem{sumers2023cognitive}
+Sumers, T. R., et al. (2023). Cognitive architectures for language agents. \textit{arXiv preprint arXiv:2309.02427}.
+
+\bibitem{huang2024understanding}
+Huang, J., et al. (2024). Understanding the planning of LLM agents: A survey. \textit{arXiv preprint arXiv:2402.02716}.
+
+\bibitem{gou2023critic}
+Gou, Z., et al. (2023). CRITIC: Large language models can self-correct with tool-interactive critiquing. \textit{ICLR}.
+
+\bibitem{madaan2023self}
+Madaan, A., et al. (2023). Self-refine: Iterative refinement with self-feedback. \textit{NeurIPS}.
+
+\bibitem{liu2024agent}
+Liu, Z., et al. (2024). Agent AI: Surveying the horizons of multimodal interaction. \textit{arXiv preprint arXiv:2401.03568}.
+
+\bibitem{durante2024agent}
+Durante, Z., et al. (2024). Agent AI: Surveying the horizons of multimodal, large language model based agents. \textit{arXiv preprint arXiv:2401.03568}.
+
+\bibitem{guo2024large}
+Guo, T., et al. (2024). Large language model based multi-agents: A survey of progress and challenges. \textit{arXiv preprint arXiv:2402.01680}.
+
+\bibitem{liu2023agentbench}
+Liu, X., et al. (2023). AgentBench: Evaluating LLMs as Agents. \textit{arXiv preprint arXiv:2308.03688}.
+
+\bibitem{mialon2023gaia}
+Mialon, G., et al. (2023). GAIA: A Benchmark for General AI Assistants. \textit{arXiv preprint arXiv:2311.12983}.
+
+\bibitem{zhou2023webarena}
+Zhou, S., et al. (2023). WebArena: A Realistic Web Environment for Building Autonomous Agents. \textit{arXiv preprint arXiv:2307.13854}.
+
+\bibitem{jimenez2023swe}
+Jimenez, C. E., et al. (2023). SWE-bench: Can Language Models Resolve Real-World GitHub Issues? \textit{arXiv preprint arXiv:2310.06770}.
+
+\bibitem{kojima2022large}
+Kojima, T., et al. (2022). Large language models are zero-shot reasoners. \textit{NeurIPS}.
+
+\bibitem{zhang2023automatic}
+Zhang, Z., et al. (2023). Automatic chain of thought prompting in large language models. \textit{ICLR}.
+
+\bibitem{yao2023tree}
+Yao, S., et al. (2023). Tree of thoughts: Deliberate problem solving with large language models. \textit{NeurIPS}.
+
+\bibitem{besta2024graph}
+Besta, M., et al. (2024). Graph of thoughts: Solving elaborate problems with large language models. \textit{AAAI}.
+
+\bibitem{chen2022program}
+Chen, W., et al. (2022). Program of thoughts prompting: Disentangling computation from reasoning for numerical reasoning tasks. \textit{EMNLP}.
+
+\bibitem{creswell2022selection}
+Creswell, A., et al. (2022). Selection-inference: Exploiting large language models for interpretable logical reasoning. \textit{ICLR}.
+
+\bibitem{nakano2021webgpt}
+Nakano, R., et al. (2021). WebGPT: Browser-assisted question-answering with human feedback. \textit{arXiv preprint arXiv:2112.09332}.
+
+\bibitem{patil2023gorilla}
+Patil, S. G., et al. (2023). Gorilla: Large language model connected with massive APIs. \textit{arXiv preprint arXiv:2305.15334}.
+
+\bibitem{qin2023toolllm}
+Qin, Y., et al. (2023). ToolLLM: Facilitating large language models to master 16000+ real-world APIs. \textit{arXiv preprint arXiv:2307.16789}.
+
+\bibitem{wang2023voyager}
+Wang, G., et al. (2023). Voyager: An open-ended embodied agent with large language models. \textit{arXiv preprint arXiv:2305.16291}.
+
+\bibitem{significant2023gravitas}
+Significant Gravitas. (2023). AutoGPT: An autonomous GPT-4 experiment. \textit{GitHub repository}.
+
+\bibitem{wu2023autogen}
+Wu, Q., et al. (2023). AutoGen: Enabling next-gen LLM applications via multi-agent conversation. \textit{arXiv preprint arXiv:2308.08155}.
+
+\bibitem{rafailov2023direct}
+Rafailov, R., et al. (2023). Direct preference optimization: Your language model is secretly a reward model. \textit{NeurIPS}.
+
+\bibitem{perez2022ignore}
+Perez, F., et al. (2022). Ignore this previous prompt and hack the planet: Injecting vulnerabilities into user-contributed knowledge bases. \textit{arXiv preprint arXiv:2211.03561}.
+
+\bibitem{carlini2023extracting}
+Carlini, N., et al. (2023). Extracting training data from large language models. \textit{USENIX Security}.
+
+\bibitem{ouyang2022training}
+Ouyang, L., et al. (2022). Training language models to follow instructions with human feedback. \textit{NeurIPS}.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,43 @@
+% 框架选型决策流程图（优化尺寸版本）
+\resizebox{0.95\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=1.2cm and 2cm,
+    startstop/.style={rectangle, rounded corners=8pt, minimum width=2.5cm, minimum height=0.9cm, text centered, font=\small\bfseries, draw=black!70, fill=red!15},
+    process/.style={rectangle, rounded corners=4pt, minimum width=2.5cm, minimum height=0.9cm, text centered, font=\small, draw=black!70, fill=blue!10},
+    decision/.style={diamond, aspect=2, minimum width=2cm, minimum height=0.8cm, text centered, font=\small, draw=black!70, fill=orange!10},
+    arrow/.style={-{Stealth[length=2mm]}, thick, black!60}
+]
+    % 节点
+    \node[startstop] (start) {开始};
+    \node[process, below=of start] (task) {分析任务特性};
+    \node[decision, below=of task] (complex) {任务复杂？};
+    \node[decision, left=1.8cm of complex] (decomp) {可分解？};
+    \node[process, left=1.8cm of decomp] (multi) {多智能体架构};
+    \node[process, right=1.8cm of complex] (single) {单智能体架构};
+    \node[decision, below=1.2cm of multi] (tool1) {工具需求高？};
+    \node[decision, below=1.2cm of single] (tool2) {工具需求高？};
+    \node[process, left=1.5cm of tool1] (autogen) {AutoGen};
+    \node[process, below=1.2cm of tool1] (metagpt) {MetaGPT};
+    \node[process, right=1.5cm of tool2] (langchain) {LangChain};
+    \node[process, below=1.2cm of tool2] (autogpt) {AutoGPT};
+    \node[startstop, below=1.5cm of metagpt] (end) {结束};
+    
+    % 连接
+    \draw[arrow] (start) -- (task);
+    \draw[arrow] (task) -- (complex);
+    \draw[arrow] (complex) -- node[above, font=\scriptsize] {否} (single);
+    \draw[arrow] (complex) -- node[above, font=\scriptsize] {是} (decomp);
+    \draw[arrow] (decomp) -- node[above, font=\scriptsize] {是} (multi);
+    \draw[arrow] (decomp) -- node[right, font=\scriptsize] {否} (single);
+    \draw[arrow] (multi) -- (tool1);
+    \draw[arrow] (single) -- (tool2);
+    \draw[arrow] (tool1) -- node[above, font=\scriptsize] {是} (autogen);
+    \draw[arrow] (tool1) -- node[left, font=\scriptsize] {否} (metagpt);
+    \draw[arrow] (tool2) -- node[above, font=\scriptsize] {是} (langchain);
+    \draw[arrow] (tool2) -- node[right, font=\scriptsize] {否} (autogpt);
+    \draw[arrow] (autogen) |- (end);
+    \draw[arrow] (metagpt) -- (end);
+    \draw[arrow] (langchain) |- (end);
+    \draw[arrow] (autogpt) |- (end);
+\end{tikzpicture}%
+}
